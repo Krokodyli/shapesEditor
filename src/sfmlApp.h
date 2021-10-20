@@ -12,5 +12,6 @@ protected:
   virtual void draw();
   virtual void handleEvents();
 public:
+  SFMLApp(Point _size);
   virtual ~SFMLApp();
 };

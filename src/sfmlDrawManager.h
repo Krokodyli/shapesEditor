@@ -26,6 +26,8 @@ class SFMLDrawManager : public DrawManager {
 
   virtual void drawImage(int x, int y, int imageID);
 
+  virtual void drawSprite(sf::Sprite *sprite);
+
   virtual Point getOffset();
   virtual void setOffset(Point _offset);
 };

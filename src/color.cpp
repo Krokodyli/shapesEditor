@@ -9,7 +9,7 @@ Color::Color(int r, int g, int b, int a) {
   if(g < 0 || g > 255) g = 0;
   if (b < 0 || b > 255) b = 0;
   if (a < 0 || a > 255) a = 255;
-  color = r + 255 * (g + 255 * (b + 255 * a));
+  color = a + 255 * (b + 255 * (g + 255 * r));
 }
 
 unsigned int Color::getColor() { return color; }

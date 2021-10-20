@@ -1,5 +1,6 @@
 #include "sfmlDrawManager.h"
 #include <SFML/Graphics/CircleShape.hpp>
+#include <iostream>
 
 SFMLDrawManager::SFMLDrawManager(sf::RenderWindow *_window)
   : window(_window) { }
@@ -20,7 +21,7 @@ void SFMLDrawManager::drawRect(int x, int y, int width, int height,
 void SFMLDrawManager::drawCircle(int x, int y, int r, Color fillColor,
                                 Color outlineColor) {
   sf::CircleShape circle;
-  circle.setPosition(x, y);
+  circle.setPosition(x + offset.x, y + offset.y);
   circle.setRadius(r);
   circle.setFillColor(colorToSFMLColor(fillColor));
   circle.setOutlineColor(colorToSFMLColor(outlineColor));
@@ -45,6 +46,14 @@ void SFMLDrawManager::drawCircle(int x, int y, int r, Color fillColor) {
 }
 
 void SFMLDrawManager::drawImage(int x, int y, int imageID) { }
+
+void SFMLDrawManager::drawSprite(sf::Sprite *sprite) {
+  sf::Vector2f oldPos = sprite->getPosition();
+  sprite->setPosition(oldPos.x + offset.x,
+                     oldPos.y + offset.y);
+  window->draw(*sprite);
+  sprite->setPosition(oldPos);
+}
 
 Point SFMLDrawManager::getOffset(){ return offset; }
 

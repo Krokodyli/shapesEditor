@@ -1,8 +1,11 @@
 #include "app.h"
 
+App::App(Point _size) : size(_size) { }
+
 App::~App() {
   delete canvas;
   delete canvasManager;
+  delete canvasDrawManager;
   delete toolbar;
   delete inputInfo;
   delete drawManager;
@@ -18,8 +21,13 @@ void App::execute() {
   }
 }
 
+void App::initialSetup() {
+  canvasPos = Point(200, 0);
+  canvasSize = size - canvasPos;
+}
+
 void App::setup() {
-  canvas = new Canvas();
+  canvas = new Canvas(canvasPos, canvasSize, canvasDrawManager);
   canvasManager = new CanvasManager();
   toolbar = new Toolbar();
 }
