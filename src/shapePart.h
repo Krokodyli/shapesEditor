@@ -15,7 +15,7 @@ class ShapePart {
 
   Shape *getParent();
 
-  void setColor(Color color);
+  void setColor(Color _color);
   Color getColor();
 
   virtual bool isUnderPoint(Point p) = 0;

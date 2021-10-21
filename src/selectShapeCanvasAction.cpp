@@ -1,4 +1,5 @@
 #include "selectShapeCanvasAction.h"
+#include "colorShapeAction.h"
 #include <iostream>
 
 SelectCanvasAction::SelectCanvasAction(bool _multiselectMode,
@@ -51,7 +52,8 @@ bool SelectCanvasAction::canDoAction(std::vector<Shape *> *shapes) {
 }
 
 void SelectCanvasAction::colorSelected(Shape *shape, Color c) {
-
+  ColorShapeAction colorShapeAction(c);
+  shape->doAction(&colorShapeAction);
 }
 
 void SelectCanvasAction::colorSelected(ShapePart *shapePart, Color c) {

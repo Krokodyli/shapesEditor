@@ -5,7 +5,7 @@
 class Shape;
 class CircleCenter;
 
-class CircleRing : ShapePart {
+class CircleRing : public ShapePart {
  private:
   int r;
   CircleCenter *center;
