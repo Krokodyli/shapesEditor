@@ -21,18 +21,16 @@ void SelectCanvasAction::deselect() {
   isDeselecting = true;
 }
 
-void SelectCanvasAction::collectResults(Shape **selShape,
-                                        ShapePart **selShapePart) {
-  if(selectedShapes.size() > 0)
-    *selShape = *selectedShapes.begin();
-  if(selectedShapesParts.size() > 0)
-    *selShapePart = *selectedShapesParts.begin();
+vector<Shape *> SelectCanvasAction::getSelectedShapes() {
+  return selectedShapes;
 }
 
-void SelectCanvasAction::collectMultiResults(set<Shape *> *selShapes,
-                                             set<ShapePart *> *selShapeParts) {
-  *selShapes = selectedShapes;
-  *selShapeParts = selectedShapesParts;
+vector<ShapePart *> SelectCanvasAction::getSelectedShapeParts() {
+  return selectedShapesParts;
+}
+
+bool SelectCanvasAction::isSomethingSelected() {
+  return (selectedShapes.size() > 0) || (selectedShapesParts.size() > 0);
 }
 
 void SelectCanvasAction::doAction(std::vector<Shape *> *shapes) {
@@ -66,9 +64,9 @@ bool SelectCanvasAction::handleSelected(ShapePart *shapePart) {
 
   if(wholeShapeMode) {
     Shape *shape = shapePart->getParent();
-    if(selectedShapes.find(shape) == selectedShapes.end()) {
+    if(!isAlreadySelected(shape)) {
       colorSelected(shape, selectedColor);
-      selectedShapes.insert(shape);
+      selectedShapes.push_back(shape);
       return true;
     }
     else {
@@ -76,9 +74,9 @@ bool SelectCanvasAction::handleSelected(ShapePart *shapePart) {
     }
   }
   else {
-    if (selectedShapesParts.find(shapePart) == selectedShapesParts.end()) {
+    if(!isAlreadySelected(shapePart)) {
       colorSelected(shapePart, selectedColor);
-      selectedShapesParts.insert(shapePart);
+      selectedShapesParts.push_back(shapePart);
       return true;
     }
     else {
@@ -112,4 +110,18 @@ void SelectCanvasAction::doDeselect() {
     colorSelected(shapePart, unselectedColor);
   selectedShapes.clear();
   selectedShapesParts.clear();
+}
+
+bool SelectCanvasAction::isAlreadySelected(ShapePart *shapePart) {
+  for (unsigned int i = 0; i < selectedShapesParts.size(); i++)
+    if (selectedShapesParts[i] == shapePart)
+      return true;
+  return isAlreadySelected(shapePart->getParent());
+}
+
+bool SelectCanvasAction::isAlreadySelected(Shape * shape) {
+  for (unsigned int i = 0; i < selectedShapes.size(); i++)
+    if (selectedShapes[i] == shape)
+      return true;
+  return false;
 }

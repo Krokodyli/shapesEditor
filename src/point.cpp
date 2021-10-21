@@ -28,6 +28,14 @@ Point Point::operator/(const double &r) {
   return Point(x / r, y / r);
 }
 
+bool Point::operator==(const Point &r) {
+  return x == r.x && y == r.y;
+}
+
+bool Point::operator!=(const Point &r) {
+  return !operator==(r);
+}
+
 double Point::dis(const Point &r) {
   return sqrt(dissq(r));
 }

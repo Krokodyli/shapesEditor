@@ -2,8 +2,7 @@
 
 #include <math.h>
 
-class Point {
- public:
+struct Point {
   int x, y;
 
   Point();
@@ -15,6 +14,8 @@ class Point {
   Point operator*(const double &r);
   Point operator/(const int &r);
   Point operator/(const double &r);
+  bool operator==(const Point &r);
+  bool operator!=(const Point &r);
 
   double dis(const Point &r);
   int dissq(const Point &r);
