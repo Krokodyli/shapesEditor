@@ -39,7 +39,7 @@ void App::draw() {
 
 void App::update() {
   inputInfo->update();
-  canvas->update(canvasManager, inputInfo);
+  canvasManager->update(canvas, inputInfo);
 }
 
 void App::handleEvents() { }

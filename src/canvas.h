@@ -6,6 +6,7 @@
 #include "canvasDrawManager.h"
 #include "inputInfo.h"
 #include "shape.h"
+#include "canvasAction.h"
 
 using std::vector;
 
@@ -21,6 +22,8 @@ class Canvas {
   Canvas(Point _pos, Point _size, CanvasDrawManager *_canvasDrawManager);
   ~Canvas();
 
+  void doAction(CanvasAction *canvasAction);
+  bool canDoAction(CanvasAction *canvasAction);
+
   void draw(DrawManager *drawManager);
-  void update(CanvasManager *canvasManager, InputInfo *inputInfo);
 };

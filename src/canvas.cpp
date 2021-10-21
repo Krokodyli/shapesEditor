@@ -23,6 +23,14 @@ Canvas::Canvas(Point _pos, Point _size,
 
 Canvas::~Canvas() { }
 
+void Canvas::doAction(CanvasAction *canvasAction) {
+  canvasAction->doAction(&shapes);
+}
+
+bool Canvas::canDoAction(CanvasAction *canvasAction) {
+  return canvasAction->canDoAction(&shapes);
+}
+
 void Canvas::draw(DrawManager *drawManager) {
   Point prevOffset = drawManager->getOffset();
   drawManager->setOffset(pos);
@@ -37,5 +45,3 @@ void Canvas::draw(DrawManager *drawManager) {
 
   drawManager->setOffset(prevOffset);
 }
-
-void Canvas::update(CanvasManager *canvasManager, InputInfo *inputInfo) { }
