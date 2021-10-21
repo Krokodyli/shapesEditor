@@ -1,4 +1,4 @@
-#include "SFMLInputInfo.h"
+#include "sfmlInputInfo.h"
 
 SFMLInputInfo::SFMLInputInfo(sf::Window *_window) : window(_window) { }
 

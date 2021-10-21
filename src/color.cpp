@@ -1,6 +1,6 @@
 #include "color.h"
 
-Color::Color() : color(0) {}
+Color::Color() : Color(0, 0, 0) {}
 
 Color::Color(unsigned int _color) : color(_color) {}
 

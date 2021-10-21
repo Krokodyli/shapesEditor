@@ -22,7 +22,7 @@ void App::execute() {
 }
 
 void App::initialSetup() {
-  canvasPos = Point(200, 0);
+  canvasPos = Point(200, 0); // TODO
   canvasSize = size - canvasPos;
 }
 

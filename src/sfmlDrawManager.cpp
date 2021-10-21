@@ -21,7 +21,7 @@ void SFMLDrawManager::drawRect(int x, int y, int width, int height,
 void SFMLDrawManager::drawCircle(int x, int y, int r, Color fillColor,
                                 Color outlineColor) {
   sf::CircleShape circle;
-  circle.setPosition(x + offset.x, y + offset.y);
+  circle.setPosition(x + offset.x - r, y + offset.y - r);
   circle.setRadius(r);
   circle.setFillColor(colorToSFMLColor(fillColor));
   circle.setOutlineColor(colorToSFMLColor(outlineColor));
@@ -39,7 +39,7 @@ void SFMLDrawManager::drawRect(int x, int y, int width, int height,
 
 void SFMLDrawManager::drawCircle(int x, int y, int r, Color fillColor) {
   sf::CircleShape circle;
-  circle.setPosition(x, y);
+  circle.setPosition(x + offset.x - r, y + offset.y - r);
   circle.setRadius(r);
   circle.setFillColor(colorToSFMLColor(fillColor));
   window->draw(circle);

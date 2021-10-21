@@ -1,6 +1,6 @@
 #include "sfmlApp.h"
 #include "sfmlDrawManager.h"
-#include "SFMLInputInfo.h"
+#include "sfmlInputInfo.h"
 #include "sfmlCanvasDrawManager.h"
 
 SFMLApp::SFMLApp(Point _size) : App(_size) { }

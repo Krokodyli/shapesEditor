@@ -27,3 +27,11 @@ Point Point::operator/(const int &r) {
 Point Point::operator/(const double &r) {
   return Point(x / r, y / r);
 }
+
+double Point::dis(const Point &r) {
+  return sqrt(dissq(r));
+}
+
+int Point::dissq(const Point &r) {
+  return (x-r.x)*(x-r.x) + (y-r.y)*(y-r.y);
+}
