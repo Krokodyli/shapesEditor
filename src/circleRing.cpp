@@ -1,5 +1,6 @@
 #include "circleRing.h"
 #include "circleCenter.h"
+#include <iostream>
 
 CircleRing::CircleRing(int _r, Shape *_parent, CircleCenter *_center)
   : ShapePart(_parent), r(_r), center(_center) { }
@@ -13,7 +14,7 @@ void CircleRing::setCenter(CircleCenter *_center) { center = _center; }
 
 bool CircleRing::isUnderPoint(Point p) {
   double disp = center->getPos().dis(p);
-  return disp >= r - 0.2 && disp <= r + 0.2; // TODO
+  return disp >= r - 4 && disp <= r + 4; // TODO
 }
 
 void CircleRing::drawOnCanvas(CanvasDrawManager *drawManager) {

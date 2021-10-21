@@ -29,6 +29,14 @@ bool SFMLInputInfo::isRightClicked() {
   return _isRightPressed && !_wasRightPressed;
 }
 
-Point SFMLInputInfo::getMousePos() { return mousePos; }
+Point SFMLInputInfo::getMousePos() { return mousePos - offset; }
 
-Point SFMLInputInfo::getPrevMousePos() { return oldMousePos; }
+Point SFMLInputInfo::getPrevMousePos() { return oldMousePos - offset; }
+
+Point SFMLInputInfo::getOffset() {
+  return offset;
+}
+
+void SFMLInputInfo::setOffset(Point _offset) {
+  offset = _offset;
+}

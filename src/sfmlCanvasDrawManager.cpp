@@ -5,7 +5,7 @@
 
 SFMLCanvasDrawManager::SFMLCanvasDrawManager(Point _size)
   : size(_size) {
-  image.create(size.x, size.y, sf::Color::Red); // TODO
+  image.create(size.x, size.y, sf::Color::White); // TODO
   texture.loadFromImage(image);
   sprite.setTexture(texture);
 }
@@ -15,7 +15,7 @@ SFMLCanvasDrawManager::~SFMLCanvasDrawManager(){ }
 void SFMLCanvasDrawManager::display(DrawManager *drawManager) {
   texture.loadFromImage(image);
   ((SFMLDrawManager*)drawManager)->drawSprite(&sprite);
-  image.create(size.x, size.y, sf::Color::Red); // TODO
+  image.create(size.x, size.y, sf::Color::White); // TODO
 }
 
 void SFMLCanvasDrawManager::putPixel(int x, int y) {
@@ -27,5 +27,5 @@ void SFMLCanvasDrawManager::prepareColor(Color c) {
 }
 
 sf::Color SFMLCanvasDrawManager::colorToSFMLColor(Color c) {
-  return sf::Color(c.getColor());
+  return sf::Color(c.getR(), c.getG(), c.getB(), c.getA());
 }

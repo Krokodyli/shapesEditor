@@ -4,12 +4,11 @@
 #include <functional>
 
 #include "shape.h"
+#include "vertex.h"
+#include "edge.h"
 
 using std::vector;
 using std::function;
-
-class Vertex;
-class Edge;
 
 class Polygon : public Shape {
  private:
@@ -20,6 +19,8 @@ class Polygon : public Shape {
 public:
   Polygon(vector<Point> points, Canvas *_canvas);
   virtual ~Polygon();
+
+  Vertex *getHead();
 
   void map2Vertices(function<void(Vertex *)> f);
   void map2Edges(function<void(Edge *)> f);

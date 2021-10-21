@@ -60,5 +60,5 @@ Point SFMLDrawManager::getOffset(){ return offset; }
 void SFMLDrawManager::setOffset(Point _offset) { offset = _offset; }
 
 sf::Color SFMLDrawManager::colorToSFMLColor(Color c) {
-  return sf::Color(c.getColor());
+  return sf::Color(c.getR(), c.getG(), c.getB(), c.getA());
 }

@@ -22,6 +22,9 @@ void CanvasManager::setup() {
 }
 
 void CanvasManager::update(Canvas *canvas, InputInfo *inputInfo) {
+  Point prevOffset = inputInfo->getOffset();
+  inputInfo->setOffset(canvas->getPos());
+
   if(expectedMode != currMode) {
     if(currMode != ManagerModeEnum::NoMode)
       modes[currMode]->stop(canvas);
@@ -31,4 +34,6 @@ void CanvasManager::update(Canvas *canvas, InputInfo *inputInfo) {
   }
   if (currMode != ManagerModeEnum::NoMode)
     modes[currMode]->update(canvas, inputInfo);
+
+  inputInfo->setOffset(prevOffset);
 }

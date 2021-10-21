@@ -12,6 +12,10 @@ Polygon::~Polygon() {
   deletePolygon();
 }
 
+Vertex *Polygon::getHead() {
+  return head;
+}
+
 void Polygon::map2Vertices(function<void(Vertex *)> f) {
   Vertex *it = head;
   f(it);

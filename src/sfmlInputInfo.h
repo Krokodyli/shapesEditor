@@ -7,6 +7,7 @@
 class SFMLInputInfo : public InputInfo {
  private:
   sf::Window *window;
+  Point offset;
 
   bool _isLeftPressed, _wasLeftPressed;
   bool _isRightPressed, _wasRightPressed;
@@ -26,4 +27,7 @@ public:
 
   virtual Point getMousePos();
   virtual Point getPrevMousePos();
+
+  virtual Point getOffset();
+  virtual void setOffset(Point _offset);
 };

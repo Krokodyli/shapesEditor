@@ -35,13 +35,16 @@ void Canvas::draw(DrawManager *drawManager) {
   Point prevOffset = drawManager->getOffset();
   drawManager->setOffset(pos);
 
-  for(auto shape : shapes)
-    shape->drawOnCanvas(canvasDrawManager);
+  for (int i = shapes.size() - 1; i >= 0; i--)
+      shapes[i]->drawOnCanvas(canvasDrawManager);
 
   canvasDrawManager->display(drawManager);
 
-  for (auto shape : shapes)
-    shape->draw(drawManager);
+  for(int i = shapes.size() - 1; i >= 0; i--)
+    shapes[i]->draw(drawManager);
 
   drawManager->setOffset(prevOffset);
 }
+
+Point Canvas::getPos() { return pos; }
+Point Canvas::getSize() { return size; }

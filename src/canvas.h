@@ -26,4 +26,7 @@ class Canvas {
   bool canDoAction(CanvasAction *canvasAction);
 
   void draw(DrawManager *drawManager);
+
+  Point getPos();
+  Point getSize();
 };

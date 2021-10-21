@@ -82,6 +82,7 @@ void CanvasDrawManager::drawLine(Point a, Point b, Color color) {
 
 void CanvasDrawManager::drawCircle(Point c,  int r, Color color){
   if(r == 0) return;
+  prepareColor(color);
   int x = 0, y = r;
   int param = 3 - 2 * r;
   drawCirclePoints(c.x, c.y, x, y);

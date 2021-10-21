@@ -17,4 +17,7 @@ class InputInfo {
 
   virtual Point getMousePos() = 0;
   virtual Point getPrevMousePos() = 0;
+
+  virtual Point getOffset() = 0;
+  virtual void setOffset(Point _offset) = 0;
 };

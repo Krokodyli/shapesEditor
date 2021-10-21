@@ -8,6 +8,14 @@ Circle::Circle(Point pos, int r, Canvas *_canvas) : Shape(_canvas) {
   ring->setCenter(center);
 }
 
+CircleCenter *Circle::getCenter() {
+  return center;
+}
+
+CircleRing *Circle::getRing() {
+  return ring;
+}
+
 void Circle::doAction(ShapeAction *shapeAction) {
   shapeAction->doAction(this);
 }

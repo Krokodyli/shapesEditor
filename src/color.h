@@ -2,10 +2,13 @@
 
 class Color {
  private:
-  unsigned int color;
+  unsigned char r, g, b, a;
  public:
   Color();
-  Color(unsigned int _color);
-  Color(int r, int g, int b, int a = 255);
-  unsigned int getColor();
+  Color(unsigned int _r, unsigned int _g,
+        unsigned int _b, unsigned int _a = 255);
+  unsigned char getR();
+  unsigned char getG();
+  unsigned char getB();
+  unsigned char getA();
 };

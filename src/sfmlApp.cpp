@@ -24,7 +24,6 @@ void SFMLApp::setup() {
 
 void SFMLApp::draw() {
   toolbar->draw(drawManager);
-  drawManager->drawCircle(175, 100, 50, Color(0, 0, 255));
   canvas->draw(drawManager);
   window->display();
 }

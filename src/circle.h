@@ -13,6 +13,9 @@ class Circle : public Shape {
 public:
   Circle(Point pos, int r, Canvas *_canvas);
 
+  CircleCenter *getCenter();
+  CircleRing *getRing();
+
   virtual void doAction(ShapeAction *shapeAction);
   virtual bool canDoAction(ShapeAction *shapeAction);
 
