@@ -13,12 +13,14 @@ class Shape;
 class MoveCanvasAction : public CanvasAction {
  private:
   Move moveValue;
-  vector<Shape*> shapes;
-  vector<ShapePart*> shapeParts;
+  vector<Shape*> *shapes;
+  vector<ShapePart*> *shapeParts;
 
 public:
-  void move(SelectCanvasAction *selectAction, Move _move);
+  MoveCanvasAction(vector<Shape*> *_shapes, vector<ShapePart*> *_shapeParts);
 
-  virtual void doAction(std::vector<Shape *> *shapes);
-  virtual bool canDoAction(std::vector<Shape *> *shapes);
+  void move(Move _move);
+
+  virtual void doAction(std::vector<Shape *> *_shapes);
+  virtual bool canDoAction(std::vector<Shape *> *_shapes);
 };

@@ -2,7 +2,8 @@
 #include "canvas.h"
 #include "defaultManagerMode.h"
 
-CanvasManager::CanvasManager() {
+CanvasManager::CanvasManager(Canvas *_canvas) {
+  canvas = _canvas;
   setup();
 }
 
@@ -12,6 +13,10 @@ void CanvasManager::setMode(ManagerModeEnum newMode) {
 
 ManagerModeEnum CanvasManager::getMode() {
   return currMode;
+}
+
+Canvas *CanvasManager::getCanvas() {
+  return canvas;
 }
 
 void CanvasManager::setup() {

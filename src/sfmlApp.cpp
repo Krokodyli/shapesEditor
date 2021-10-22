@@ -13,9 +13,9 @@ SFMLApp::~SFMLApp() {
 void SFMLApp::setup() {
   App::initialSetup();
   window = new sf::RenderWindow(sf::VideoMode(size.x, size.y, 32),
-                                "title", sf::Style::Titlebar |
-                                sf::Style::Close); // TODO
-  window->setFramerateLimit(60); // TODO
+                                AppConsts::appTitle, sf::Style::Titlebar |
+                                sf::Style::Close);
+  window->setFramerateLimit(AppConsts::framerateLimit);
   drawManager = new SFMLDrawManager(window);
   inputInfo = new SFMLInputInfo(window);
   canvasDrawManager = new SFMLCanvasDrawManager(canvasSize);

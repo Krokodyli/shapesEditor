@@ -1,11 +1,11 @@
 #include "sfmlCanvasDrawManager.h"
 
 #include "sfmlDrawManager.h"
-#include <iostream>
+#include "appConsts.h"
 
 SFMLCanvasDrawManager::SFMLCanvasDrawManager(Point _size)
   : size(_size) {
-  image.create(size.x, size.y, sf::Color::White); // TODO
+  image.create(size.x, size.y, colorToSFMLColor(AppConsts::canvasColor));
   texture.loadFromImage(image);
   sprite.setTexture(texture);
 }
@@ -15,7 +15,7 @@ SFMLCanvasDrawManager::~SFMLCanvasDrawManager(){ }
 void SFMLCanvasDrawManager::display(DrawManager *drawManager) {
   texture.loadFromImage(image);
   ((SFMLDrawManager*)drawManager)->drawSprite(&sprite);
-  image.create(size.x, size.y, sf::Color::White); // TODO
+  image.create(size.x, size.y, colorToSFMLColor(AppConsts::canvasColor));
 }
 
 void SFMLCanvasDrawManager::putPixel(int x, int y) {

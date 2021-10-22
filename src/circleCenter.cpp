@@ -12,11 +12,11 @@ void CircleCenter::setCircleRing(CircleRing *_circleRing) {
 Point CircleCenter::getPos() { return pos; }
 void CircleCenter::setPos(Point _pos){ pos = _pos; }
 bool CircleCenter::isUnderPoint(Point p) {
-  return pos.dissq(p) <= 16; // TODO
+  return pos.dissq(p) <= AppConsts::vertexSelectionTolerance;
 }
 
 void CircleCenter::drawOnCanvas(CanvasDrawManager *drawManager) { }
 
 void CircleCenter::draw(DrawManager *drawManager) {
-  drawManager->drawCircle(pos.x, pos.y, 3, color); // TODO
+  drawManager->drawCircle(pos.x, pos.y, AppConsts::vertexSize, color);
 }

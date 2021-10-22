@@ -1,7 +1,9 @@
 #include "sfmlApp.h"
+#include "appConsts.h"
 
-int main() {
-  App *app = new SFMLApp(Point(1200, 600));
+int main(int argc, char **argv) {
+  AppConsts::addPathFromArg(argv[0]);
+  App *app = new SFMLApp(AppConsts::appSize);
   app->execute();
   return 0;
 }

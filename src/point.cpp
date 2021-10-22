@@ -43,3 +43,7 @@ double Point::dis(const Point &r) {
 int Point::dissq(const Point &r) {
   return (x-r.x)*(x-r.x) + (y-r.y)*(y-r.y);
 }
+
+bool Point::insideRec(int _x, int _y, int width, int height) {
+  return x >= _x && x <= _x + width && y >= _y && y <= _y + height;
+}

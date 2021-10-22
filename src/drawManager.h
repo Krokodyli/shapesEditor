@@ -6,6 +6,7 @@
 class DrawManager {
  public:
   virtual ~DrawManager() = 0;
+
   virtual void loadResources() = 0;
 
   virtual void drawRect(int x, int y, int width, int height,

@@ -5,8 +5,9 @@
 SFMLDrawManager::SFMLDrawManager(sf::RenderWindow *_window)
   : window(_window) { }
 
-void SFMLDrawManager::loadResources() { }
-
+void SFMLDrawManager::loadResources() {
+  resourceManager.loadTextures();
+}
 
 void SFMLDrawManager::drawRect(int x, int y, int width, int height,
                                Color fillColor, Color outlineColor) {
@@ -45,7 +46,11 @@ void SFMLDrawManager::drawCircle(int x, int y, int r, Color fillColor) {
   window->draw(circle);
 }
 
-void SFMLDrawManager::drawImage(int x, int y, int imageID) { }
+void SFMLDrawManager::drawImage(int x, int y, int imageID) {
+  sprite.setPosition(x + offset.x, y + offset.y);
+  sprite.setTexture(*resourceManager.getTexture(imageID));
+  window->draw(sprite);
+}
 
 void SFMLDrawManager::drawSprite(sf::Sprite *sprite) {
   sf::Vector2f oldPos = sprite->getPosition();

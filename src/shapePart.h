@@ -2,6 +2,7 @@
 
 #include "canvasDrawManager.h"
 #include "point.h"
+#include "appConsts.h"
 
 class Shape;
 

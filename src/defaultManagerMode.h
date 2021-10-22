@@ -12,6 +12,9 @@ using std::chrono::milliseconds;
 
 class DefaultManagerMode : public ManagerMode {
  private:
+  vector<Shape*> selected;
+  vector<ShapePart*> selectedParts;
+
   SelectCanvasAction selectAction;
   MoveCanvasAction moveAction;
 
@@ -21,6 +24,7 @@ class DefaultManagerMode : public ManagerMode {
   int lastTimeClicked = 0;
 
   int getTime();
+  bool isSomethingSelected();
 public:
   DefaultManagerMode();
   virtual void start(Canvas *canvas);

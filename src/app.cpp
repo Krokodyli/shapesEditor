@@ -22,14 +22,15 @@ void App::execute() {
 }
 
 void App::initialSetup() {
-  canvasPos = Point(200, 0); // TODO
+  canvasPos = Point(AppConsts::toolbarWidth, 0);
   canvasSize = size - canvasPos;
 }
 
 void App::setup() {
   canvas = new Canvas(canvasPos, canvasSize, canvasDrawManager);
-  canvasManager = new CanvasManager();
+  canvasManager = new CanvasManager(canvas);
   toolbar = new Toolbar();
+  drawManager->loadResources();
 }
 
 void App::draw() {

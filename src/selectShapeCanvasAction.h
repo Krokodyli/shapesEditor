@@ -13,8 +13,8 @@ class Shape;
 
 class SelectCanvasAction : public CanvasAction {
  private:
-  vector<Shape*> selectedShapes;
-  vector<ShapePart*> selectedShapesParts;
+  vector<Shape*> *selectedShapes;
+  vector<ShapePart*> *selectedShapesParts;
 
   bool multiselectMode;
   bool deselectMode;
@@ -35,7 +35,9 @@ class SelectCanvasAction : public CanvasAction {
   bool isAlreadySelected(ShapePart *shapePart);
   bool isAlreadySelected(Shape *shape);
 public:
-  SelectCanvasAction(bool _multiselectMode,
+  SelectCanvasAction(vector<Shape*> *_selectedShapes,
+                     vector<ShapePart*> *_selectedShapesParts,
+                     bool _multiselectMode,
                      bool _deselectMode,
                      bool coloringMode = false,
                      Color _unselectedColor = Color(),
@@ -43,10 +45,6 @@ public:
 
   void select(Point _p, bool _wholeShapeMode = false);
   void deselect();
-
-  vector<Shape*> getSelectedShapes();
-  vector<ShapePart*> getSelectedShapeParts();
-  bool isSomethingSelected();
 
   virtual void doAction(std::vector<Shape *> *shapes);
   virtual bool canDoAction(std::vector<Shape *> *shapes);

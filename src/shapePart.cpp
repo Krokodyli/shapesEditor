@@ -1,7 +1,7 @@
 #include "shapePart.h"
 
 ShapePart::ShapePart(Shape *_parent) : parent(_parent) {
-  color = Color(0, 0, 0); // TODO
+  color = AppConsts::shapeColor;
 }
 
 ShapePart::~ShapePart() { }

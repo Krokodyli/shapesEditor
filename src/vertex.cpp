@@ -20,11 +20,11 @@ Edge *Vertex::getOtherEdge(Edge *_a) {
 }
 
 bool Vertex::isUnderPoint(Point p) {
-  return pos.dissq(p) <= 16; // TODO
+  return pos.dissq(p) <= AppConsts::vertexSelectionTolerance;
 }
 
 void Vertex::drawOnCanvas(CanvasDrawManager *drawManager) { }
 
 void Vertex::draw(DrawManager *drawManager) {
-  drawManager->drawCircle(pos.x, pos.y, 3, color); // TODO
+  drawManager->drawCircle(pos.x, pos.y, AppConsts::vertexSize, color);
 }

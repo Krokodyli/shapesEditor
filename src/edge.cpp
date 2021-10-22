@@ -19,7 +19,7 @@ Vertex *Edge::getOtherVertex(Vertex *_a) {
 
 bool Edge::isUnderPoint(Point p) {
   return p.dis(a->getPos()) + p.dis(b->getPos())
-    <= a->getPos().dis(b->getPos()) + 0.2;
+    <= a->getPos().dis(b->getPos()) + AppConsts::edgeSelectionTolerance;
 }
 
 void Edge::drawOnCanvas(CanvasDrawManager *drawManager) {

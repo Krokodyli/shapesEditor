@@ -14,7 +14,8 @@ void CircleRing::setCenter(CircleCenter *_center) { center = _center; }
 
 bool CircleRing::isUnderPoint(Point p) {
   double disp = center->getPos().dis(p);
-  return disp >= r - 4 && disp <= r + 4; // TODO
+  return disp >= r - AppConsts::ringSelectionTolerance
+    && disp <= r + AppConsts::ringSelectionTolerance;
 }
 
 void CircleRing::drawOnCanvas(CanvasDrawManager *drawManager) {

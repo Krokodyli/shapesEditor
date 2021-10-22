@@ -1,6 +1,7 @@
 #pragma once
 
 #include "drawManager.h"
+#include "sfmlResourceManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -9,6 +10,9 @@ class SFMLDrawManager : public DrawManager {
  private:
   sf::RenderWindow *window;
   Point offset;
+
+  SFMLResourceManager resourceManager;
+  sf::Sprite sprite;
 
   sf::Color colorToSFMLColor(Color c);
  public:
