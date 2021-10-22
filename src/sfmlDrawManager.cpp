@@ -7,6 +7,8 @@ SFMLDrawManager::SFMLDrawManager(sf::RenderWindow *_window)
 
 void SFMLDrawManager::loadResources() {
   resourceManager.loadTextures();
+  font = resourceManager.loadFont();
+  textSprite.setFont(font);
 }
 
 void SFMLDrawManager::drawRect(int x, int y, int width, int height,
@@ -58,6 +60,17 @@ void SFMLDrawManager::drawSprite(sf::Sprite *sprite) {
                      oldPos.y + offset.y);
   window->draw(*sprite);
   sprite->setPosition(oldPos);
+}
+
+void SFMLDrawManager::drawText(std::string text, int x, int y, int fontSize,
+                               Color color) {
+  std::cout << "aaa\n";
+  textSprite.setFillColor(colorToSFMLColor(color));
+  textSprite.setPosition(x, y);
+  textSprite.setString(text);
+  textSprite.setCharacterSize(fontSize);
+  textSprite.setStyle(sf::Text::Bold);
+  window->draw(textSprite);
 }
 
 Point SFMLDrawManager::getOffset(){ return offset; }

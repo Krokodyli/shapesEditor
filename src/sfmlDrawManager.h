@@ -14,6 +14,9 @@ class SFMLDrawManager : public DrawManager {
   SFMLResourceManager resourceManager;
   sf::Sprite sprite;
 
+  sf::Font font;
+  sf::Text textSprite;
+
   sf::Color colorToSFMLColor(Color c);
  public:
   SFMLDrawManager(sf::RenderWindow *_window);
@@ -31,6 +34,9 @@ class SFMLDrawManager : public DrawManager {
   virtual void drawImage(int x, int y, int imageID);
 
   virtual void drawSprite(sf::Sprite *sprite);
+
+  virtual void drawText(std::string text, int x, int y, int fontSize,
+                        Color color);
 
   virtual Point getOffset();
   virtual void setOffset(Point _offset);

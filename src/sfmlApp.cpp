@@ -2,6 +2,7 @@
 #include "sfmlDrawManager.h"
 #include "sfmlInputInfo.h"
 #include "sfmlCanvasDrawManager.h"
+#include <string>
 
 SFMLApp::SFMLApp(Point _size) : App(_size) { }
 
@@ -20,11 +21,19 @@ void SFMLApp::setup() {
   inputInfo = new SFMLInputInfo(window);
   canvasDrawManager = new SFMLCanvasDrawManager(canvasSize);
   App::setup();
+
+  clock.restart();
 }
 
 void SFMLApp::draw() {
   toolbar->draw(drawManager);
   canvas->draw(drawManager);
+
+  fps = 1000 / clock.restart().asMilliseconds();
+  if(showFPS)
+    drawManager->drawText("fps: " + std::to_string(fps),
+                          AppConsts::appSize.x - 100, 0, 20, Color(0, 0, 0));
+
   window->display();
 }
 

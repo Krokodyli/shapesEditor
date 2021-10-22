@@ -44,4 +44,6 @@ const std::vector<std::string> AppConsts::imagesPaths = {
   "defaultIcon.png"
 };
 
+const std::string AppConsts::fontPath = "font.ttf";
+
 const int AppConsts::defaultModeButtonImage = 0;

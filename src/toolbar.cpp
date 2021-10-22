@@ -18,5 +18,6 @@ void Toolbar::draw(DrawManager *drawManager){
 }
 
 void Toolbar::setup() {
-  buttons.push_back(Button(Point(15, 15), AppConsts::defaultModeButtonImage));
+  buttons.push_back(Button("Shape manipulation mode",
+                           Point(15, 15), AppConsts::defaultModeButtonImage));
 }

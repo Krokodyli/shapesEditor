@@ -17,6 +17,7 @@ class SFMLResourceManager {
   ~SFMLResourceManager();
 
   void loadTextures();
+  sf::Font loadFont();
 
   sf::Texture *getTexture(int imageID);
 };

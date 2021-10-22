@@ -4,7 +4,7 @@
 #include "point.h"
 
 #include <vector>
-#include <iostream>
+#include <string>
 
 class AppConsts {
  public:
@@ -35,6 +35,8 @@ class AppConsts {
   static const std::string getResourcePath(std::string resource);
 
   static const std::vector<std::string> imagesPaths;
+
+  static const std::string fontPath;
 
   static const int defaultModeButtonImage;
 };

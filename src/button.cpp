@@ -1,7 +1,8 @@
 #include "button.h"
 #include "inputInfo.h"
 
-Button::Button(Point _pos, int _imageID) : pos(_pos), imageID(_imageID) { }
+Button::Button(std::string _description, Point _pos, int _imageID)
+  : description(_description), pos(_pos), imageID(_imageID) { }
 
 void Button::setActionFunc(function<void(CanvasManager *)> _actionFunc) {
   actionFunc = _actionFunc;
@@ -25,11 +26,14 @@ void Button::draw(DrawManager *drawManager) {
 
 void Button::update(CanvasManager *manager, InputInfo *inputInfo) {
   color = getColor(manager, inputInfo);
-  if(actionFunc && inputInfo->isLeftClicked()
-     && inputInfo->getMousePos().insideRec(pos.x, pos.y,
-                                           AppConsts::buttonSize.x,
-                                           AppConsts::buttonSize.y))
-     actionFunc(manager);
+
+  if (inputInfo->getMousePos().insideRec(pos.x, pos.y,
+                                         AppConsts::buttonSize.x,
+                                         AppConsts::buttonSize.y))
+    mouseHovering = true;
+
+  if (actionFunc && inputInfo->isLeftClicked() && mouseHovering)
+      actionFunc(manager);
 }
 
 Color Button::getColor(CanvasManager *manager, InputInfo *inputInfo) {

@@ -13,6 +13,12 @@ void SFMLResourceManager::loadTextures() {
   }
 }
 
+sf::Font SFMLResourceManager::loadFont() {
+  sf::Font font;
+  font.loadFromFile(AppConsts::getResourcePath(AppConsts::fontPath));
+  return font;
+}
+
 sf::Texture *SFMLResourceManager::getTexture(int imageID) {
   if(imageID < 0 || imageID > (int)textures.size())
     return nullptr;

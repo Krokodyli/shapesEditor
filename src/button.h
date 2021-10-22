@@ -13,10 +13,12 @@ class CanvasManager;
 
 class Button {
  private:
+  std::string description;
   Point pos;
   int imageID;
 
   Color color;
+  bool mouseHovering;
 
   function<bool(CanvasManager *)> getActiveStatusFunc;
   function<bool(CanvasManager*)> getEnabledStatusFunc;
@@ -24,11 +26,13 @@ class Button {
 
   Color getColor(CanvasManager *manager, InputInfo *inputInfo);
  public:
-  Button(Point _pos, int _imageID);
+  Button(std::string _description, Point _pos, int _imageID);
 
   void setActionFunc(function<void(CanvasManager *)> _actionFunc);
   void setActiveStatusFunc(function<bool(CanvasManager *)> _getActiveStatusFunc);
   void setEnabledStatusFunc(function<bool(CanvasManager *)> _getEnabledStatusFunc);
+
+  bool isMouseHovering();
 
   void draw(DrawManager *drawManager);
   void update(CanvasManager *manager, InputInfo *inputInfo);
