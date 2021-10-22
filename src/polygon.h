@@ -21,6 +21,7 @@ public:
   virtual ~Polygon();
 
   Vertex *getHead();
+  void setHead(Vertex *v);
 
   void map2Vertices(function<void(Vertex *)> f);
   void map2Edges(function<void(Edge *)> f);

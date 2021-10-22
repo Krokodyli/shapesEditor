@@ -1,7 +1,7 @@
 #include "toolbar.h"
 #include "canvas.h"
 #include "canvasManager.h"
-#include <iostream>
+#include "defaultManagerMode.h"
 
 Toolbar::Toolbar() {
   setup();
@@ -32,6 +32,8 @@ void Toolbar::setup() {
   buttons.push_back(getDefaultModeButton());
   buttons.push_back(getPolygonModeButton());
   buttons.push_back(getCircleModeButton());
+  buttons.push_back(getInsertVertexButton());
+  buttons.push_back(getDeleteButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -61,7 +63,7 @@ Button Toolbar::getPolygonModeButton() {
 }
 
 Button Toolbar::getCircleModeButton() {
-  Button button("Circle insertion\nmode", Point(33, 180),
+  Button button("Circle insertion\nmode", Point(33, 170),
                 AppConsts::circleModeButtonImage);
   button.setActionFunc([](CanvasManager *manager) {
     if (manager->getMode() != ManagerModeEnum::CircleMode)
@@ -70,5 +72,25 @@ Button Toolbar::getCircleModeButton() {
   button.setActiveStatusFunc([](CanvasManager *manager) {
     return manager->getMode() == ManagerModeEnum::CircleMode;
   });
+  return button;
+}
+
+Button Toolbar::getDeleteButton() {
+  Button button("Remove a shape or\na part of it", Point(33, 300),
+                AppConsts::deleteButtonImage);
+  button.setActionFunc([](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::DefaultMode,
+                      DefaultManagerMode::deleteActionID);
+  });
+  button.setActiveStatusFunc([](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::DefaultMode,
+                                DefaultManagerMode::deleteActionID);
+  });
+  return button;
+}
+
+Button Toolbar::getInsertVertexButton() {
+  Button button("Insert vertex in\nthe selected edge", Point(116, 300),
+                AppConsts::insertVertexButtonImage);
   return button;
 }

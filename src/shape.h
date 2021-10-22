@@ -11,6 +11,7 @@ class Shape {
   Canvas *canvas;
  public:
   Shape(Canvas *_canvas);
+  virtual ~Shape();
 
   virtual void doAction(ShapeAction *shapeAction) = 0;
   virtual bool canDoAction(ShapeAction *shapeAction) = 0;

@@ -16,6 +16,10 @@ Vertex *Polygon::getHead() {
   return head;
 }
 
+void Polygon::setHead(Vertex *v) {
+  head = v;
+}
+
 void Polygon::map2Vertices(function<void(Vertex *)> f) {
   Vertex *it = head;
   f(it);
@@ -81,8 +85,8 @@ void Polygon::deletePolygon() {
   Vertex *it = head->getB()->getB();
   while(it != firstVertex) {
     Vertex *next = it->getB()->getB();
-    delete it;
     delete it->getB();
+    delete it;
     it = next;
   }
   delete firstVertex->getB();

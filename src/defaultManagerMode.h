@@ -5,6 +5,7 @@
 #include "managerMode.h"
 #include "selectShapeCanvasAction.h"
 #include "moveCanvasAction.h"
+#include "deleteCanvasAction.h"
 
 using std::chrono::duration_cast;
 using std::chrono::system_clock;
@@ -17,11 +18,12 @@ class DefaultManagerMode : public ManagerMode {
 
   SelectCanvasAction selectAction;
   MoveCanvasAction moveAction;
+  DeleteCanvasAction deleteAction;
 
   Point oldMousePos, mousePos;
   bool grabbed = false;
 
-  int lastTimeClicked = 0;
+  int lastTimeClicked;
 
   int getTime();
   bool isSomethingSelected();
@@ -30,4 +32,10 @@ public:
   virtual void start(Canvas *canvas);
   virtual void update(Canvas *canvas, InputInfo *inputInfo);
   virtual void stop(Canvas *canvas);
+
+  virtual void doAction(Canvas *canvas, int actionID);
+  virtual bool canDoAction(Canvas *canvas, int actionID);
+
+  static const int deleteActionID;
+  static const int insertVertexActionID;
 };

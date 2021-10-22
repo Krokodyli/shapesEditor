@@ -43,7 +43,9 @@ const std::string AppConsts::getResourcePath(std::string resource) {
 const std::vector<std::string> AppConsts::imagesPaths = {
   "defaultIcon.png",
   "polygonIcon.png",
-  "circleIcon.png"
+  "circleIcon.png",
+  "deleteIcon.png",
+  "newVertexIcon.png"
 };
 
 const std::string AppConsts::fontPath = "font.ttf";
@@ -51,3 +53,5 @@ const std::string AppConsts::fontPath = "font.ttf";
 const int AppConsts::defaultModeButtonImage = 0;
 const int AppConsts::polygonModeButtonImage = 1;
 const int AppConsts::circleModeButtonImage = 2;
+const int AppConsts::deleteButtonImage = 3;
+const int AppConsts::insertVertexButtonImage = 4;

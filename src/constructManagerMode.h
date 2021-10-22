@@ -12,4 +12,7 @@ public:
   virtual void start(Canvas *canvas);
   virtual void update(Canvas *canvas, InputInfo *inputInfo);
   virtual void stop(Canvas *canvas);
+
+  virtual void doAction(Canvas *canvas, int actionID);
+  virtual bool canDoAction(Canvas *canvas, int actionID);
 };

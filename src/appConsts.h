@@ -41,4 +41,6 @@ class AppConsts {
   static const int defaultModeButtonImage;
   static const int polygonModeButtonImage;
   static const int circleModeButtonImage;
+  static const int deleteButtonImage;
+  static const int insertVertexButtonImage;
 };

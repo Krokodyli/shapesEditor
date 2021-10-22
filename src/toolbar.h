@@ -12,9 +12,13 @@ class Toolbar {
   vector<Button> buttons;
 
   void setup();
+
   Button getDefaultModeButton();
   Button getPolygonModeButton();
   Button getCircleModeButton();
+
+  Button getDeleteButton();
+  Button getInsertVertexButton();
 public:
   Toolbar();
   void update(CanvasManager *canvasManager, InputInfo *inputInfo);

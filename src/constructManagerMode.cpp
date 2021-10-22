@@ -25,3 +25,8 @@ void ConstructManagerMode::stop(Canvas *canvas) {
   constructAction.cleanUp();
   canvas->doAction(&constructAction);
 }
+
+void ConstructManagerMode::doAction(Canvas *canvas, int actionID) { }
+bool ConstructManagerMode::canDoAction(Canvas *canvas, int actionID) {
+  return false;
+}

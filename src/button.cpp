@@ -3,7 +3,12 @@
 #include <iostream>
 
 Button::Button(std::string _description, Point _pos, int _imageID)
-  : description(_description), pos(_pos), imageID(_imageID) { }
+  : description(_description), pos(_pos), imageID(_imageID) {
+  mouseHovering = false;
+  getActiveStatusFunc = nullptr;
+  getEnabledStatusFunc = nullptr;
+  actionFunc = nullptr;
+}
 
 void Button::setActionFunc(function<void(CanvasManager *)> _actionFunc) {
   actionFunc = _actionFunc;
@@ -55,8 +60,7 @@ Color Button::getColor(CanvasManager *manager, InputInfo *inputInfo) {
       return AppConsts::inactiveButtonColor;
   }
   else {
-    if(inputInfo->getMousePos().insideRec(pos.x, pos.y, AppConsts::buttonSize.x,
-                                          AppConsts::buttonSize.y))
+    if(mouseHovering)
       return AppConsts::activeButtonColor;
     else
       return AppConsts::inactiveButtonColor;

@@ -4,7 +4,8 @@
 DefaultManagerMode::DefaultManagerMode()
     : selectAction(&selected, &selectedParts, false, true, true,
                    AppConsts::shapeColor, AppConsts::selectedShapeColor),
-      moveAction(&selected, &selectedParts) { }
+      moveAction(&selected, &selectedParts),
+      deleteAction(&selected, &selectedParts) { }
 
 void DefaultManagerMode::start(Canvas *canvas) {
   lastTimeClicked = getTime();
@@ -12,8 +13,10 @@ void DefaultManagerMode::start(Canvas *canvas) {
 
 void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
   mousePos = inputInfo->getMousePos();
+  bool isMouseInsideCanvas = mousePos.insideRec(0, 0, canvas->getSize().x,
+                                                canvas->getSize().y);
 
-  if(inputInfo->isLeftClicked()) {
+  if(inputInfo->isLeftClicked() && isMouseInsideCanvas) {
     bool selectWholeShape =
       getTime() - lastTimeClicked <= AppConsts::doubleClickThreshold;
 
@@ -48,6 +51,21 @@ void DefaultManagerMode::stop(Canvas *canvas) {
   selectAction.deselect();
   canvas->doAction(&selectAction);
 }
+
+void DefaultManagerMode::doAction(Canvas *canvas, int actionID) {
+  if (actionID == deleteActionID)
+    canvas->doAction(&deleteAction);
+}
+
+bool DefaultManagerMode::canDoAction(Canvas *canvas, int actionID) {
+  if(actionID == deleteActionID)
+    return canvas->canDoAction(&deleteAction);
+  else
+    return false;
+}
+
+const int DefaultManagerMode::deleteActionID = 0;
+const int DefaultManagerMode::insertVertexActionID = 1;
 
 int DefaultManagerMode::getTime() {
   return duration_cast<milliseconds>

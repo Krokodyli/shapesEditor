@@ -30,6 +30,9 @@ public:
 
   Canvas *getCanvas();
 
+  bool canDoAction(ManagerModeEnum expectedMode, int actionID);
+  void doAction(ManagerModeEnum expectedMode, int actionID);
+
   void setup();
   void update(Canvas *canvas, InputInfo *inputInfo);
 };

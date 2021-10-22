@@ -12,6 +12,7 @@ class Circle : public Shape {
   CircleRing *ring;
 public:
   Circle(Point pos, int r, Canvas *_canvas);
+  virtual ~Circle();
 
   CircleCenter *getCenter();
   CircleRing *getRing();

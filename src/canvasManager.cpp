@@ -23,6 +23,18 @@ Canvas *CanvasManager::getCanvas() {
   return canvas;
 }
 
+bool CanvasManager::canDoAction(ManagerModeEnum expectedMode, int actionID) {
+  if(currMode == expectedMode)
+    return modes[currMode]->canDoAction(canvas, actionID);
+  else
+    return false;
+}
+
+void CanvasManager::doAction(ManagerModeEnum expectedMode, int actionID) {
+  if(currMode == expectedMode)
+    modes[currMode]->doAction(canvas, actionID);
+}
+
 void CanvasManager::setup() {
   modes[ManagerModeEnum::DefaultMode] = new DefaultManagerMode();
   modes[ManagerModeEnum::PolygonMode]
