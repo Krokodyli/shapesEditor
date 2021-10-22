@@ -1,5 +1,6 @@
 #include "button.h"
 #include "inputInfo.h"
+#include <iostream>
 
 Button::Button(std::string _description, Point _pos, int _imageID)
   : description(_description), pos(_pos), imageID(_imageID) { }
@@ -18,6 +19,14 @@ void Button::setEnabledStatusFunc(function<bool(CanvasManager *)>
   getEnabledStatusFunc = _getEnabledStatusFunc;
 }
 
+std::string Button::getDescription() {
+  return description;
+}
+
+bool Button::isMouseHovering() {
+  return mouseHovering;
+}
+
 void Button::draw(DrawManager *drawManager) {
   drawManager->drawRect(pos.x, pos.y, AppConsts::buttonSize.x,
                         AppConsts::buttonSize.y, color);
@@ -27,10 +36,10 @@ void Button::draw(DrawManager *drawManager) {
 void Button::update(CanvasManager *manager, InputInfo *inputInfo) {
   color = getColor(manager, inputInfo);
 
-  if (inputInfo->getMousePos().insideRec(pos.x, pos.y,
-                                         AppConsts::buttonSize.x,
-                                         AppConsts::buttonSize.y))
-    mouseHovering = true;
+  mouseHovering = inputInfo->getMousePos().insideRec(pos.x, pos.y,
+                                                     AppConsts::buttonSize.x,
+                                                     AppConsts::buttonSize.y);
+
 
   if (actionFunc && inputInfo->isLeftClicked() && mouseHovering)
       actionFunc(manager);

@@ -32,6 +32,8 @@ class Button {
   void setActiveStatusFunc(function<bool(CanvasManager *)> _getActiveStatusFunc);
   void setEnabledStatusFunc(function<bool(CanvasManager *)> _getEnabledStatusFunc);
 
+  std::string getDescription();
+
   bool isMouseHovering();
 
   void draw(DrawManager *drawManager);

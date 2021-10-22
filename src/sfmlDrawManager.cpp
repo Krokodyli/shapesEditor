@@ -64,12 +64,10 @@ void SFMLDrawManager::drawSprite(sf::Sprite *sprite) {
 
 void SFMLDrawManager::drawText(std::string text, int x, int y, int fontSize,
                                Color color) {
-  std::cout << "aaa\n";
   textSprite.setFillColor(colorToSFMLColor(color));
   textSprite.setPosition(x, y);
   textSprite.setString(text);
   textSprite.setCharacterSize(fontSize);
-  textSprite.setStyle(sf::Text::Bold);
   window->draw(textSprite);
 }
 

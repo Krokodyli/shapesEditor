@@ -41,6 +41,7 @@ void App::draw() {
 void App::update() {
   inputInfo->update();
   canvasManager->update(canvas, inputInfo);
+  toolbar->update(canvasManager, inputInfo);
 }
 
 void App::handleEvents() { }

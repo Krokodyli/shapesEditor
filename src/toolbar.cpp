@@ -15,9 +15,18 @@ void Toolbar::draw(DrawManager *drawManager){
                         AppConsts::appSize.y, AppConsts::toolbarColor);
   for(auto &button : buttons)
     button.draw(drawManager);
+
+  for (auto &button : buttons) {
+    if(button.isMouseHovering()) {
+      drawManager->drawText(button.getDescription(), 15, 35, 15, Color(0, 0, 0)); // TODO
+      break;
+    }
+  }
+  drawManager->drawRect(15, 5, 165, 25, Color(170, 255, 170)); // TODO
+  drawManager->drawText("Shapes Editor", 20, 5, 20, Color(0, 0, 0));
 }
 
 void Toolbar::setup() {
-  buttons.push_back(Button("Shape manipulation mode",
-                           Point(15, 15), AppConsts::defaultModeButtonImage));
+  buttons.push_back(Button("Shape manipulation\nmode",
+                           Point(15, 100), AppConsts::defaultModeButtonImage));
 }
