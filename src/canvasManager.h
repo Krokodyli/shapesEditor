@@ -10,6 +10,8 @@ using std::unordered_map;
 
 enum class ManagerModeEnum {
   DefaultMode,
+  PolygonMode,
+  CircleMode,
   NoMode
 };
 

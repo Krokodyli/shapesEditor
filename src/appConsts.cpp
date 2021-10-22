@@ -14,8 +14,8 @@ const Color AppConsts::selectedShapeColor = Color(255, 0, 0);
 const int AppConsts::vertexSize = 3;
 
 const Color AppConsts::toolbarColor = Color(76, 140, 74);
-const Color AppConsts::activeButtonColor = Color(0, 0, 255);
-const Color AppConsts::inactiveButtonColor = Color(0, 0, 255);
+const Color AppConsts::activeButtonColor = Color(10, 60, 10);
+const Color AppConsts::inactiveButtonColor = Color(20, 100, 20);
 const Color AppConsts::disabledButtonColor = Color(0, 0, 0);
 const int AppConsts::toolbarWidth = 200;
 const Point AppConsts::buttonSize = Point(50, 50);
@@ -41,9 +41,13 @@ const std::string AppConsts::getResourcePath(std::string resource) {
 }
 
 const std::vector<std::string> AppConsts::imagesPaths = {
-  "defaultIcon.png"
+  "defaultIcon.png",
+  "polygonIcon.png",
+  "circleIcon.png"
 };
 
 const std::string AppConsts::fontPath = "font.ttf";
 
 const int AppConsts::defaultModeButtonImage = 0;
+const int AppConsts::polygonModeButtonImage = 1;
+const int AppConsts::circleModeButtonImage = 2;

@@ -39,4 +39,6 @@ class AppConsts {
   static const std::string fontPath;
 
   static const int defaultModeButtonImage;
+  static const int polygonModeButtonImage;
+  static const int circleModeButtonImage;
 };

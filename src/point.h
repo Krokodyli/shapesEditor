@@ -19,5 +19,7 @@ struct Point {
 
   double dis(const Point &r);
   int dissq(const Point &r);
+
   bool insideRec(int _x, int _y, int width, int height);
+  Point fix2Rec(Point min, Point max);
 };

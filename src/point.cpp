@@ -1,4 +1,5 @@
 #include "point.h"
+#include <algorithm>
 
 Point::Point(int _x, int _y) : x(_x), y(_y) {}
 
@@ -46,4 +47,15 @@ int Point::dissq(const Point &r) {
 
 bool Point::insideRec(int _x, int _y, int width, int height) {
   return x >= _x && x <= _x + width && y >= _y && y <= _y + height;
+}
+
+Point Point::fix2Rec(Point min, Point max) {
+  Point p(x, y);
+  p.x = std::max(p.x, min.x);
+  p.x = std::min(p.x, max.x - 1);
+
+  p.y = std::max(p.y, min.y);
+  p.y = std::min(p.y, max.y - 1);
+
+  return p;
 }

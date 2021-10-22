@@ -1,6 +1,10 @@
 #include "canvasManager.h"
 #include "canvas.h"
+#include "constructManagerMode.h"
+#include "constructionPolygon.h"
 #include "defaultManagerMode.h"
+#include "constructionCircle.h"
+#include <iostream>
 
 CanvasManager::CanvasManager(Canvas *_canvas) {
   canvas = _canvas;
@@ -21,6 +25,16 @@ Canvas *CanvasManager::getCanvas() {
 
 void CanvasManager::setup() {
   modes[ManagerModeEnum::DefaultMode] = new DefaultManagerMode();
+  modes[ManagerModeEnum::PolygonMode]
+    = new ConstructManagerMode([](Canvas *canvas) {
+      auto polygon = new ConstructionPolygon(canvas);
+      return polygon;
+    }, canvas);
+  modes[ManagerModeEnum::CircleMode]
+    = new ConstructManagerMode([](Canvas *canvas) {
+      auto circle = new ConstructionCircle(canvas);
+      return circle;
+    }, canvas);
 
   expectedMode = ManagerModeEnum::DefaultMode;
   currMode = ManagerModeEnum::NoMode;
