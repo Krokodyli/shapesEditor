@@ -1,12 +1,14 @@
 #include "defaultManagerMode.h"
 #include "appConsts.h"
+#include <iostream>
 
-DefaultManagerMode::DefaultManagerMode()
-    : selectAction(&selected, &selectedParts, false, true, true,
-                   AppConsts::shapeColor, AppConsts::selectedShapeColor),
-      moveAction(&selected, &selectedParts),
-      deleteAction(&selected, &selectedParts),
-      newVertexAction(&selected, &selectedParts) { }
+DefaultManagerMode::DefaultManagerMode(CanvasManagerState *_state)
+  : ManagerMode(_state),
+    selectAction(&selected, &selectedParts, false, true,
+                 AppConsts::shapeColor, AppConsts::selectedShapeColor),
+    moveAction(&selected, &selectedParts, state),
+    deleteAction(&selected, &selectedParts, state),
+    newVertexAction(&selected, &selectedParts) { }
 
 void DefaultManagerMode::start(Canvas *canvas) {
   lastTimeClicked = getTime();
@@ -74,6 +76,14 @@ bool DefaultManagerMode::canDoAction(Canvas *canvas, int actionID) {
     return canvas->canDoAction(&newVertexAction);
   else
     return false;
+}
+
+void DefaultManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
+  auto prevOffset = drawManager->getOffset();
+  drawManager->setOffset(canvas->getPos());
+  for(auto constraint : state->getConstraints())
+    constraint.second->draw(drawManager);
+  drawManager->setOffset(prevOffset);
 }
 
 const int DefaultManagerMode::deleteActionID = 0;

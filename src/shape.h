@@ -18,4 +18,6 @@ class Shape {
 
   virtual void drawOnCanvas(CanvasDrawManager *drawManager) = 0;
   virtual void draw(DrawManager *drawManager) = 0;
+
+  virtual bool isShapeOutsideCanvas() = 0;
 };

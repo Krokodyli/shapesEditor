@@ -17,7 +17,6 @@ class SelectCanvasAction : public CanvasAction {
   vector<ShapePart*> *selectedShapesParts;
 
   bool multiselectMode;
-  bool deselectMode;
   bool coloringMode;
 
   Color unselectedColor;
@@ -38,7 +37,6 @@ public:
   SelectCanvasAction(vector<Shape*> *_selectedShapes,
                      vector<ShapePart*> *_selectedShapesParts,
                      bool _multiselectMode,
-                     bool _deselectMode,
                      bool coloringMode = false,
                      Color _unselectedColor = Color(),
                      Color _selectedColor = Color());

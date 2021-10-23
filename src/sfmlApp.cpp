@@ -26,8 +26,7 @@ void SFMLApp::setup() {
 }
 
 void SFMLApp::draw() {
-  toolbar->draw(drawManager);
-  canvas->draw(drawManager);
+  App::draw();
 
   fps = 1000 / clock.restart().asMilliseconds();
   if(showFPS)

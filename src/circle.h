@@ -22,4 +22,6 @@ public:
 
   virtual void drawOnCanvas(CanvasDrawManager *drawManager);
   virtual void draw(DrawManager *drawManager);
+
+  virtual bool isShapeOutsideCanvas();
 };

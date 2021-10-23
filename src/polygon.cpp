@@ -2,6 +2,7 @@
 #include "shapeAction.h"
 #include "vertex.h"
 #include "edge.h"
+#include "canvas.h"
 
 Polygon::Polygon(vector<Point> points, Canvas *_canvas) : Shape(_canvas) {
   head = nullptr;
@@ -92,4 +93,13 @@ void Polygon::deletePolygon() {
   delete firstVertex->getB();
   delete firstVertex;
   head = nullptr;
+}
+
+bool Polygon::isShapeOutsideCanvas() {
+  bool isOutside = false;
+  map2Vertices([this, &isOutside](Vertex *v) {
+    if(!v->getPos().insideRec(0, 0, canvas->getPos().x, canvas->getPos().y))
+      isOutside = true;
+  });
+  return isOutside;
 }

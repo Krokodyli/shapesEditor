@@ -36,17 +36,20 @@ void CanvasManager::doAction(ManagerModeEnum expectedMode, int actionID) {
 }
 
 void CanvasManager::setup() {
-  modes[ManagerModeEnum::DefaultMode] = new DefaultManagerMode();
+  modes[ManagerModeEnum::DefaultMode] = new DefaultManagerMode(&state);
   modes[ManagerModeEnum::PolygonMode]
-    = new ConstructManagerMode([](Canvas *canvas) {
+    = new ConstructManagerMode(&state, [](Canvas *canvas) {
       auto polygon = new ConstructionPolygon(canvas);
       return polygon;
     }, canvas);
   modes[ManagerModeEnum::CircleMode]
-    = new ConstructManagerMode([](Canvas *canvas) {
+    = new ConstructManagerMode(&state, [](Canvas *canvas) {
       auto circle = new ConstructionCircle(canvas);
       return circle;
     }, canvas);
+
+  modes[ManagerModeEnum::ConstraintMode]
+    = new ConstraintsManagerMode(&state);
 
   expectedMode = ManagerModeEnum::DefaultMode;
   currMode = ManagerModeEnum::NoMode;
@@ -67,4 +70,9 @@ void CanvasManager::update(Canvas *canvas, InputInfo *inputInfo) {
     modes[currMode]->update(canvas, inputInfo);
 
   inputInfo->setOffset(prevOffset);
+}
+
+void CanvasManager::draw(DrawManager *drawManager) {
+  if(currMode != ManagerModeEnum::NoMode)
+    modes[currMode]->draw(drawManager, canvas);
 }

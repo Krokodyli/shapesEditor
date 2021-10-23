@@ -16,9 +16,13 @@ class Toolbar {
   Button getDefaultModeButton();
   Button getPolygonModeButton();
   Button getCircleModeButton();
+  Button getConstraintsModeButton();
 
   Button getDeleteButton();
   Button getInsertVertexButton();
+
+  Button getFixedCenterConstraintButton();
+  Button getFixedRadiusConstraintButton();
 public:
   Toolbar();
   void update(CanvasManager *canvasManager, InputInfo *inputInfo);

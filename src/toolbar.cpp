@@ -32,8 +32,11 @@ void Toolbar::setup() {
   buttons.push_back(getDefaultModeButton());
   buttons.push_back(getPolygonModeButton());
   buttons.push_back(getCircleModeButton());
+  buttons.push_back(getConstraintsModeButton());
   buttons.push_back(getInsertVertexButton());
   buttons.push_back(getDeleteButton());
+  buttons.push_back(getFixedCenterConstraintButton());
+  buttons.push_back(getFixedRadiusConstraintButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -75,6 +78,19 @@ Button Toolbar::getCircleModeButton() {
   return button;
 }
 
+Button Toolbar::getConstraintsModeButton() {
+  Button button("Constraint mode", Point(116, 170),
+                AppConsts::constraintModeButtonImage);
+  button.setActionFunc([](CanvasManager *manager) {
+    if (manager->getMode() != ManagerModeEnum::ConstraintMode)
+      manager->setMode(ManagerModeEnum::ConstraintMode);
+  });
+  button.setActiveStatusFunc([](CanvasManager *manager) {
+    return manager->getMode() == ManagerModeEnum::ConstraintMode;
+  });
+  return button;
+}
+
 Button Toolbar::getDeleteButton() {
   Button button("Remove a shape or\na part of it", Point(33, 300),
                 AppConsts::deleteButtonImage);
@@ -99,6 +115,35 @@ Button Toolbar::getInsertVertexButton() {
   button.setActiveStatusFunc([](CanvasManager *manager) {
     return manager->canDoAction(ManagerModeEnum::DefaultMode,
                                 DefaultManagerMode::insertVertexActionID);
+  });
+  return button;
+}
+
+Button Toolbar::getFixedCenterConstraintButton() {
+  Button button("Add fixed center\nconstraint", Point(33, 430),
+                AppConsts::fixedCenterConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeFixedCenterConstraint;
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getFixedRadiusConstraintButton() {
+  Button button("Add fixed radius\nconstraint", Point(116, 430),
+                AppConsts::fixedRadiusConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeFixedRadiusConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
   });
   return button;
 }

@@ -65,3 +65,7 @@ void ConstructionCircle::draw(DrawManager *drawManager) {
   drawManager->drawCircle(center.x, center.y, AppConsts::vertexSize,
                           AppConsts::shapeColor);
 }
+
+bool ConstructionCircle::isShapeOutsideCanvas() {
+  return false;
+}

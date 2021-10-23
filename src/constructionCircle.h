@@ -24,4 +24,6 @@ class ConstructionCircle : public ConstructionShape {
 
   virtual void drawOnCanvas(CanvasDrawManager *drawManager);
   virtual void draw(DrawManager *drawManager);
+
+  virtual bool isShapeOutsideCanvas();
 };

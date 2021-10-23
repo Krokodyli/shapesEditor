@@ -1,0 +1,33 @@
+#pragma once
+
+#include <typeinfo>
+
+#include "constraint.h"
+#include "circleRing.h"
+
+class Circle;
+
+class FixedCenterConstraint : public Constraint {
+ private:
+  CircleCenter *center;
+  Point fixedPos;
+
+  bool isCircleOutsideCanvas(Circle *circle);
+ public:
+  FixedCenterConstraint(CircleCenter *_center);
+  virtual ~FixedCenterConstraint();
+
+  virtual bool isConstraintBroken();
+  virtual bool resolveConstraint(ShapePart *p,
+                                 set<ShapePart *> resolved = set<ShapePart*>());
+  virtual vector<ShapePart *> getAllConstrainted();
+  virtual void draw(DrawManager *drawManager);
+};
+
+class FixedCenterConstraintCreator : public ConstraintCreator {
+public:
+  virtual bool canMakeConstraint(vector<ShapePart *> *parts,
+                                 CanvasManagerState *state);
+  virtual bool makeConstraint(vector<ShapePart *> *parts,
+                              CanvasManagerState *state);
+};

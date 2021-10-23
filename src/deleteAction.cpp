@@ -1,9 +1,14 @@
 #include "deleteAction.h"
 
+#include "constraint.h"
 #include "shapePart.h"
 #include "polygon.h"
+#include "canvasManagerState.h"
+#include "circle.h"
 
-DeleteAction::DeleteAction(ShapePart *_shapePart) : shapePart(_shapePart),
+DeleteAction::DeleteAction(CanvasManagerState *_state,
+                           ShapePart *_shapePart) : state(_state),
+                                                    shapePart(_shapePart),
                                                     deleteWholeShape(false) { }
 
 bool DeleteAction::isDeletingWholeShapeNeeded() {
@@ -11,24 +16,18 @@ bool DeleteAction::isDeletingWholeShapeNeeded() {
 }
 
 void DeleteAction::doAction(Circle *circle) {
-  deleteWholeShape = true;
+  deleteWholeCircle(circle);
 }
 
 void DeleteAction::doAction(Polygon *polygon) {
   if(shapePart == nullptr) {
-    deleteWholeShape = true;
+    deleteWholePolygon(polygon);
   }
   else {
-    int verticesCount = 0;
-    polygon->map2Vertices([&verticesCount](Vertex *v) {
-      verticesCount++;
-    });
-    if(verticesCount <= 3) {
-      deleteWholeShape = true;
-    }
-    else {
+    if(countSides(polygon) > 3)
       deletePolygonPart(polygon);
-    }
+    else
+      deleteWholePolygon(polygon);
   }
 }
 
@@ -38,6 +37,22 @@ bool DeleteAction::canDoAction(Circle *circle) {
 
 bool DeleteAction::canDoAction(Polygon *polygon) {
   return true;
+}
+
+void DeleteAction::deleteWholeCircle(Circle *circle) {
+  state->deleteConstraint(circle->getCenter());
+  state->deleteConstraint(circle->getRing());
+  deleteWholeShape = true;
+}
+
+void DeleteAction::deleteWholePolygon(Polygon *polygon) {
+  deleteWholeShape = true;
+  polygon->map2Vertices([this](Vertex *v) {
+    this->state->deleteConstraint(v);
+  });
+  polygon->map2Edges([this](Edge *e) {
+    this->state->deleteConstraint(e);
+  });
 }
 
 void DeleteAction::deletePolygonPart(Polygon *polygon) {
@@ -55,8 +70,9 @@ void DeleteAction::deletePolygonPart(Polygon *polygon) {
       if (edge == nullptr && e == this->shapePart)
         edge = e;
     });
-    if(edge != nullptr)
+    if(edge != nullptr) {
       deleteEdge(polygon, edge);
+    }
   }
 }
 
@@ -71,10 +87,20 @@ void DeleteAction::deleteVertex(Polygon *polygon, Vertex *v) {
   if(v == polygon->getHead()) {
     polygon->setHead(v->getA()->getA());
   }
+  state->deleteConstraint(v);
+  state->deleteConstraint(e);
   delete v;
   delete e;
 }
 
 void DeleteAction::deleteEdge(Polygon *polygon, Edge *e) {
   deleteVertex(polygon, e->getA());
+}
+
+int DeleteAction::countSides(Polygon *polygon) {
+  int verticesCount = 0;
+  polygon->map2Vertices([&verticesCount](Vertex *v) {
+    verticesCount++;
+  });
+  return verticesCount;
 }

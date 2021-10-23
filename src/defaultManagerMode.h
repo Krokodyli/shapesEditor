@@ -30,13 +30,15 @@ class DefaultManagerMode : public ManagerMode {
   int getTime();
   bool isSomethingSelected();
 public:
-  DefaultManagerMode();
+  DefaultManagerMode(CanvasManagerState *_state);
   virtual void start(Canvas *canvas);
   virtual void update(Canvas *canvas, InputInfo *inputInfo);
   virtual void stop(Canvas *canvas);
 
   virtual void doAction(Canvas *canvas, int actionID);
   virtual bool canDoAction(Canvas *canvas, int actionID);
+
+  virtual void draw(DrawManager *drawManager, Canvas *canvas);
 
   static const int deleteActionID;
   static const int insertVertexActionID;

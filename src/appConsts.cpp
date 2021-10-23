@@ -44,8 +44,12 @@ const std::vector<std::string> AppConsts::imagesPaths = {
   "defaultIcon.png",
   "polygonIcon.png",
   "circleIcon.png",
+  "constraintIcon.png",
   "deleteIcon.png",
-  "newVertexIcon.png"
+  "newVertexIcon.png",
+  "locked.png",
+  "lockedCenterIcon.png",
+  "lockedRingIcon.png"
 };
 
 const std::string AppConsts::fontPath = "font.ttf";
@@ -53,5 +57,9 @@ const std::string AppConsts::fontPath = "font.ttf";
 const int AppConsts::defaultModeButtonImage = 0;
 const int AppConsts::polygonModeButtonImage = 1;
 const int AppConsts::circleModeButtonImage = 2;
-const int AppConsts::deleteButtonImage = 3;
-const int AppConsts::insertVertexButtonImage = 4;
+const int AppConsts::constraintModeButtonImage = 3;
+const int AppConsts::deleteButtonImage = 4;
+const int AppConsts::insertVertexButtonImage = 5;
+const int AppConsts::lockedIconImage = 6;
+const int AppConsts::fixedCenterConstraintButtonImage = 7;
+const int AppConsts::fixedRadiusConstraintButtonImage = 8;

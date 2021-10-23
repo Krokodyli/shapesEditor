@@ -1,8 +1,12 @@
 #include "moveAction.h"
+#include "constraint.h"
+#include "canvasManagerState.h"
 #include <iostream>
 
-void MoveAction::moveShape(Move _move, ShapePart *_part) {
+void MoveAction::moveShape(Move _move, CanvasManagerState *_state,
+                           ShapePart *_part) {
   move = _move;
+  state = _state;
   part = _part;
 }
 
@@ -50,31 +54,40 @@ bool MoveAction::canDoAction(Polygon *polygon) {
 
 void MoveAction::moveVertex(Polygon *polygon, Vertex *vertex) {
   vertex->setPos(move.newMousePos);
-  std::cout << "vertex moved\n";
 }
+
 void MoveAction::moveEdge(Polygon *polygon, Edge *edge) {
   edge->getA()->setPos(edge->getA()->getPos() + move.delta);
   edge->getB()->setPos(edge->getB()->getPos() + move.delta);
-  std::cout << "edge moved\n";
 }
 
 void MoveAction::moveCircleCenter(Circle *circle, CircleCenter *circleCenter) {
+  Point prevPos = circleCenter->getPos();
   circleCenter->setPos(move.newMousePos);
-  std::cout << "Circle center moved\n";
+
+  auto constraint = state->getConstraint(circleCenter);
+
+  if(circle->isShapeOutsideCanvas()
+     || (constraint != nullptr && constraint->isConstraintBroken()))
+    circleCenter->setPos(prevPos);
 }
 void MoveAction::moveCircleRing(Circle *circle, CircleRing *circleRing) {
+  int prevR = circleRing->getR();
   circleRing->setR(circleRing->getCenter()->getPos().dis(move.newMousePos));
-  std::cout << "Circle ring moved\n";
+
+  auto constraint = state->getConstraint(circleRing);
+
+  if(circle->isShapeOutsideCanvas()
+     || (constraint != nullptr && constraint->isConstraintBroken()))
+    circleRing->setR(prevR);
 }
 
 void MoveAction::movePolygon(Polygon *polygon) {
   polygon->map2Vertices([this](Vertex *v) {
     v->setPos(v->getPos()+move.delta);
   });
-  std::cout << "Polygon moved\n";
 }
 
 void MoveAction::moveCircle(Circle *circle) {
-  circle->getCenter()->setPos(circle->getCenter()->getPos() + move.delta);
-  std::cout << "Circle moved\n";
+  moveCircleCenter(circle, circle->getCenter());
 }

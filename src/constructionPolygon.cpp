@@ -65,3 +65,7 @@ void ConstructionPolygon::draw(DrawManager *drawManager) {
     drawManager->drawCircle(v.x, v.y, AppConsts::vertexSize,
                             AppConsts::shapeColor);
 }
+
+bool ConstructionPolygon::isShapeOutsideCanvas() {
+  return false;
+}

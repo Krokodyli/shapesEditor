@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "constraint.h"
 #include "move.h"
 #include "canvasAction.h"
 #include "selectShapeCanvasAction.h"
@@ -15,9 +16,10 @@ class MoveCanvasAction : public CanvasAction {
   Move moveValue;
   vector<Shape*> *shapes;
   vector<ShapePart*> *shapeParts;
-
+  CanvasManagerState *state;
 public:
-  MoveCanvasAction(vector<Shape*> *_shapes, vector<ShapePart*> *_shapeParts);
+  MoveCanvasAction(vector<Shape*> *_shapes, vector<ShapePart*> *_shapeParts,
+                   CanvasManagerState *_state);
 
   void move(Move _move);
 

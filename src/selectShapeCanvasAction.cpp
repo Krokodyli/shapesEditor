@@ -5,12 +5,11 @@
 SelectCanvasAction::SelectCanvasAction(vector<Shape*> *_selectedShapes,
                                        vector<ShapePart*> *_selectedShapesParts,
                                        bool _multiselectMode,
-                                       bool _deselectMode,
                                        bool _coloringMode,
                                        Color _unselectedColor,
                                        Color _selectedColor)
   : selectedShapes(_selectedShapes), selectedShapesParts(_selectedShapesParts),
-    multiselectMode(_multiselectMode), deselectMode(_deselectMode),
+    multiselectMode(_multiselectMode),
     coloringMode(_coloringMode), unselectedColor(_unselectedColor),
     selectedColor(_selectedColor) { }
 
@@ -25,10 +24,12 @@ void SelectCanvasAction::deselect() {
 }
 
 void SelectCanvasAction::doAction(std::vector<Shape *> *shapes) {
-  if(deselectMode)
+  if(!multiselectMode)
     doDeselect();
+
   if(!isDeselecting) {
-    doSelect(shapes);
+    if(!doSelect(shapes) && multiselectMode)
+      doDeselect();
   }
   else {
     doDeselect();

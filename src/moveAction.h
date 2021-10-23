@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include "constraint.h"
 #include "shapeAction.h"
 #include "selectShapeCanvasAction.h"
 #include "shapePart.h"
@@ -15,8 +16,10 @@ class MoveAction : public ShapeAction {
 
   ShapePart *part;
   Shape *shape;
+  CanvasManagerState *state;
  public:
-  virtual void moveShape(Move _move, ShapePart *_part = nullptr);
+  virtual void moveShape(Move _move, CanvasManagerState *_state,
+                         ShapePart *_part = nullptr);
 
   virtual void doAction(Circle *circle);
   virtual void doAction(Polygon *polygon);

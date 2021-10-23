@@ -3,8 +3,11 @@
 #include <unordered_map>
 
 #include "canvas.h"
+#include "drawManager.h"
 #include "inputInfo.h"
 #include "managerMode.h"
+#include "canvasManagerState.h"
+#include "constraintsManagerMode.h"
 
 using std::unordered_map;
 
@@ -12,6 +15,7 @@ enum class ManagerModeEnum {
   DefaultMode,
   PolygonMode,
   CircleMode,
+  ConstraintMode,
   NoMode
 };
 
@@ -22,6 +26,8 @@ class CanvasManager {
   ManagerModeEnum expectedMode;
 
   Canvas *canvas;
+
+  CanvasManagerState state;
 public:
   CanvasManager(Canvas *_canvas);
 
@@ -35,4 +41,5 @@ public:
 
   void setup();
   void update(Canvas *canvas, InputInfo *inputInfo);
+  void draw(DrawManager *drawManager);
 };

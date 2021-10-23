@@ -36,6 +36,7 @@ void App::setup() {
 void App::draw() {
   canvas->draw(drawManager);
   toolbar->draw(drawManager);
+  canvasManager->draw(drawManager);
 }
 
 void App::update() {
