@@ -5,7 +5,8 @@ DefaultManagerMode::DefaultManagerMode()
     : selectAction(&selected, &selectedParts, false, true, true,
                    AppConsts::shapeColor, AppConsts::selectedShapeColor),
       moveAction(&selected, &selectedParts),
-      deleteAction(&selected, &selectedParts) { }
+      deleteAction(&selected, &selectedParts),
+      newVertexAction(&selected, &selectedParts) { }
 
 void DefaultManagerMode::start(Canvas *canvas) {
   lastTimeClicked = getTime();
@@ -53,13 +54,24 @@ void DefaultManagerMode::stop(Canvas *canvas) {
 }
 
 void DefaultManagerMode::doAction(Canvas *canvas, int actionID) {
-  if (actionID == deleteActionID)
+  if(!canDoAction(canvas, actionID))
+    return;
+
+  if (actionID == deleteActionID) {
     canvas->doAction(&deleteAction);
+  }
+  else if (actionID == insertVertexActionID) {
+    canvas->doAction(&newVertexAction);
+    selectAction.deselect();
+    canvas->doAction(&selectAction);
+  }
 }
 
 bool DefaultManagerMode::canDoAction(Canvas *canvas, int actionID) {
   if(actionID == deleteActionID)
     return canvas->canDoAction(&deleteAction);
+  else if (actionID == insertVertexActionID)
+    return canvas->canDoAction(&newVertexAction);
   else
     return false;
 }

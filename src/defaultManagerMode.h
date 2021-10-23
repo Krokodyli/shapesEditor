@@ -6,6 +6,7 @@
 #include "selectShapeCanvasAction.h"
 #include "moveCanvasAction.h"
 #include "deleteCanvasAction.h"
+#include "newVertexCanvasAction.h"
 
 using std::chrono::duration_cast;
 using std::chrono::system_clock;
@@ -19,6 +20,7 @@ class DefaultManagerMode : public ManagerMode {
   SelectCanvasAction selectAction;
   MoveCanvasAction moveAction;
   DeleteCanvasAction deleteAction;
+  NewVertexCanvasAction newVertexAction;
 
   Point oldMousePos, mousePos;
   bool grabbed = false;

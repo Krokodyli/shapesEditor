@@ -92,5 +92,13 @@ Button Toolbar::getDeleteButton() {
 Button Toolbar::getInsertVertexButton() {
   Button button("Insert vertex in\nthe selected edge", Point(116, 300),
                 AppConsts::insertVertexButtonImage);
+  button.setActionFunc([](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::DefaultMode,
+                      DefaultManagerMode::insertVertexActionID);
+  });
+  button.setActiveStatusFunc([](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::DefaultMode,
+                                DefaultManagerMode::insertVertexActionID);
+  });
   return button;
 }
