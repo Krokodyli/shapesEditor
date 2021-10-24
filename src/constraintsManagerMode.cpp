@@ -3,6 +3,7 @@
 #include "fixedCenterConstraint.h"
 #include "fixedLengthConstraint.h"
 #include "equalEdgesConstraint.h"
+#include "parallelEdgesConstraint.h"
 
 ConstraintsManagerMode::ConstraintsManagerMode(CanvasManagerState *_state)
   : ManagerMode(_state),
@@ -47,6 +48,10 @@ void ConstraintsManagerMode::doAction(Canvas *canvas, int actionID) {
     EqualEdgesConstraintCreator creator;
     creator.makeConstraint(&selectedParts, state);
   }
+  else if (actionID == makeParallelEdgesConstraint) {
+    ParallelEdgesConstraintCreator creator;
+    creator.makeConstraint(&selectedParts, state);
+  }
   else {
     didAction = false;
   }
@@ -73,6 +78,10 @@ bool ConstraintsManagerMode::canDoAction(Canvas *canvas, int actionID) {
     EqualEdgesConstraintCreator creator;
     return creator.canMakeConstraint(&selectedParts, state);
   }
+  else if (actionID == makeParallelEdgesConstraint) {
+    ParallelEdgesConstraintCreator creator;
+    return creator.canMakeConstraint(&selectedParts, state);
+  }
 
   return false;
 }
@@ -89,3 +98,4 @@ const int ConstraintsManagerMode::makeFixedRadiusConstraint = 0;
 const int ConstraintsManagerMode::makeFixedCenterConstraint = 1;
 const int ConstraintsManagerMode::makeFixedLengthConstraint = 2;
 const int ConstraintsManagerMode::makeEqualEdgesConstraint = 3;
+const int ConstraintsManagerMode::makeParallelEdgesConstraint = 4;

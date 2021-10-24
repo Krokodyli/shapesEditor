@@ -19,6 +19,9 @@ class Edge : public ShapePart {
   Vertex *getOtherVertex(Vertex *_a);
   double getLength();
 
+  double getLeanRatio();
+  bool isParallel(Edge *other);
+
   virtual bool isUnderPoint(Point p);
 
   virtual void drawOnCanvas(CanvasDrawManager *drawManager);

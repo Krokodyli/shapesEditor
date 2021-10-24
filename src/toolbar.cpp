@@ -39,6 +39,7 @@ void Toolbar::setup() {
   buttons.push_back(getFixedRadiusConstraintButton());
   buttons.push_back(getFixedLengthConstraintButton());
   buttons.push_back(getEqualEdgesConstraintButton());
+  buttons.push_back(getParallelEdgesConstraintButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -170,6 +171,21 @@ Button Toolbar::getEqualEdgesConstraintButton() {
                 AppConsts::equalEdgesConstraintButtonImage);
 
   int actionID = ConstraintsManagerMode::makeEqualEdgesConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getParallelEdgesConstraintButton() {
+  Button button("Add parallel edges\nconstraint", Point(33, 570),
+                AppConsts::parallelEdgesConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeParallelEdgesConstraint;
 
   button.setActionFunc([actionID](CanvasManager *manager) {
     manager->doAction(ManagerModeEnum::ConstraintMode, actionID);

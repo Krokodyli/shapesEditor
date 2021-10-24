@@ -27,4 +27,5 @@ class ConstraintsManagerMode : public ManagerMode {
   static const int makeFixedCenterConstraint;
   static const int makeFixedLengthConstraint;
   static const int makeEqualEdgesConstraint;
+  static const int makeParallelEdgesConstraint;
 };

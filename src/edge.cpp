@@ -21,6 +21,19 @@ double Edge::getLength() {
   return a->getPos().dis(b->getPos());
 }
 
+double Edge::getLeanRatio() {
+  double dx;
+  if(a->getPos().y >= b->getPos().y)
+    dx = a->getPos().x - b->getPos().x;
+  else
+    dx = b->getPos().x - a->getPos().x;
+  return acos(dx/getLength());
+}
+
+bool Edge::isParallel(Edge *other) {
+  return getLeanRatio() == other->getLeanRatio();
+}
+
 bool Edge::isUnderPoint(Point p) {
   return p.dis(a->getPos()) + p.dis(b->getPos())
     <= a->getPos().dis(b->getPos()) + AppConsts::edgeSelectionTolerance;
