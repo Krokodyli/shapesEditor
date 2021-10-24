@@ -50,4 +50,7 @@ class AppConsts {
 
   static const int fixedCenterConstraintButtonImage;
   static const int fixedRadiusConstraintButtonImage;
+
+  static const int fixedLengthConstraintButtonImage;
+  static const int equalEdgesConstraintButtonImage;
 };

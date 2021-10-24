@@ -6,23 +6,29 @@
 #include "circleRing.h"
 #include "constraint.h"
 
-class FixedRadiusConstraint : public Constraint {
-private:
-  CircleRing *ring;
-  int fixedRadius;
+class Edge;
+class Vertex;
 
+class FixedLengthConstraint : public Constraint {
+private:
+  Edge *edge;
+  double length;
+
+  Vertex *getVertex(ShapePart *part);
+  Point calculateRightPosition(Vertex *locked, Vertex *v);
 public:
-  FixedRadiusConstraint(CircleRing *_ring);
-  virtual ~FixedRadiusConstraint();
+  FixedLengthConstraint(Edge *_edge);
+  virtual ~FixedLengthConstraint();
 
   virtual bool isConstraintBroken();
-  virtual bool resolveConstraint(ShapePart *p, CanvasManagerState *state,
+  virtual bool
+  resolveConstraint(ShapePart *p, CanvasManagerState *state,
                     set<ShapePart *> resolved = set<ShapePart *>());
   virtual vector<ShapePart *> getAllConstrainted();
   virtual void draw(DrawManager *drawManager);
 };
 
-class FixedRadiusConstraintCreator : public ConstraintCreator {
+class FixedLengthConstraintCreator : public ConstraintCreator {
 public:
   virtual bool canMakeConstraint(vector<ShapePart *> *parts,
                                  CanvasManagerState *state);

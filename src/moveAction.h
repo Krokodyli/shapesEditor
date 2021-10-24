@@ -17,7 +17,10 @@ class MoveAction : public ShapeAction {
   ShapePart *part;
   Shape *shape;
   CanvasManagerState *state;
- public:
+
+  Point fixPoint(Point p, ShapePart *part);
+  Point fixPoint(Point p, Shape *shape);
+public:
   virtual void moveShape(Move _move, CanvasManagerState *_state,
                          ShapePart *_part = nullptr);
 

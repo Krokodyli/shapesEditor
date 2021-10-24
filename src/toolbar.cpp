@@ -37,6 +37,7 @@ void Toolbar::setup() {
   buttons.push_back(getDeleteButton());
   buttons.push_back(getFixedCenterConstraintButton());
   buttons.push_back(getFixedRadiusConstraintButton());
+  buttons.push_back(getFixedLengthConstraintButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -138,6 +139,21 @@ Button Toolbar::getFixedRadiusConstraintButton() {
                 AppConsts::fixedRadiusConstraintButtonImage);
 
   int actionID = ConstraintsManagerMode::makeFixedRadiusConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getFixedLengthConstraintButton() {
+  Button button("Add fixed length\nconstraint", Point(33, 500),
+                AppConsts::fixedLengthConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeFixedLengthConstraint;
 
   button.setActionFunc([actionID](CanvasManager *manager) {
     manager->doAction(ManagerModeEnum::ConstraintMode, actionID);

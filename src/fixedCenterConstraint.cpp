@@ -16,6 +16,7 @@ bool FixedCenterConstraint::isConstraintBroken() {
 }
 
 bool FixedCenterConstraint::resolveConstraint(ShapePart *p,
+                                              CanvasManagerState *state,
                                               set<ShapePart *> resolved) {
   return !isConstraintBroken();
 }
@@ -50,7 +51,7 @@ bool FixedCenterConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
   CircleCenter *center = dynamic_cast<CircleCenter*>((*parts)[0]);
 
   if(center != nullptr) {
-    state->addConstraint((*parts)[0], new FixedCenterConstraint(center));
+    state->addConstraint(center, new FixedCenterConstraint(center));
     return true;
   }
   else {

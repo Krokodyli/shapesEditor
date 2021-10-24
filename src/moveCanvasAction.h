@@ -17,6 +17,8 @@ class MoveCanvasAction : public CanvasAction {
   vector<Shape*> *shapes;
   vector<ShapePart*> *shapeParts;
   CanvasManagerState *state;
+
+  vector<Move> splitMove();
 public:
   MoveCanvasAction(vector<Shape*> *_shapes, vector<ShapePart*> *_shapeParts,
                    CanvasManagerState *_state);

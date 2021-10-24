@@ -15,6 +15,7 @@ bool FixedRadiusConstraint::isConstraintBroken() {
 }
 
 bool FixedRadiusConstraint::resolveConstraint(ShapePart *p,
+                                              CanvasManagerState *state,
                                               set<ShapePart *> resolved) {
   return !isConstraintBroken();
 }

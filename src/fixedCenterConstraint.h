@@ -2,6 +2,7 @@
 
 #include <typeinfo>
 
+#include "canvasManagerState.h"
 #include "constraint.h"
 #include "circleRing.h"
 
@@ -18,7 +19,7 @@ class FixedCenterConstraint : public Constraint {
   virtual ~FixedCenterConstraint();
 
   virtual bool isConstraintBroken();
-  virtual bool resolveConstraint(ShapePart *p,
+  virtual bool resolveConstraint(ShapePart *p, CanvasManagerState *state,
                                  set<ShapePart *> resolved = set<ShapePart*>());
   virtual vector<ShapePart *> getAllConstrainted();
   virtual void draw(DrawManager *drawManager);

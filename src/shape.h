@@ -20,4 +20,5 @@ class Shape {
   virtual void draw(DrawManager *drawManager) = 0;
 
   virtual bool isShapeOutsideCanvas() = 0;
+  virtual Canvas *getCanvas();
 };

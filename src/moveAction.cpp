@@ -1,6 +1,8 @@
 #include "moveAction.h"
 #include "constraint.h"
 #include "canvasManagerState.h"
+#include "canvas.h"
+#include "vertex.h"
 #include <iostream>
 
 void MoveAction::moveShape(Move _move, CanvasManagerState *_state,
@@ -53,12 +55,53 @@ bool MoveAction::canDoAction(Polygon *polygon) {
 }
 
 void MoveAction::moveVertex(Polygon *polygon, Vertex *vertex) {
-  vertex->setPos(move.newMousePos);
+  Point prevPos = vertex->getPos();
+  vertex->setPos(fixPoint(move.newMousePos, vertex));
+
+  auto constraint = state->getConstraint(vertex->getA());
+  if(constraint != nullptr && constraint->isConstraintBroken()
+     && !constraint->resolveConstraint(vertex, state)) {
+    vertex->setPos(prevPos);
+    movePolygon(polygon);
+  }
+
+  constraint = state->getConstraint(vertex->getB());
+  if (constraint != nullptr && constraint->isConstraintBroken() &&
+      !constraint->resolveConstraint(vertex, state)) {
+    vertex->setPos(prevPos);
+    movePolygon(polygon);
+  }
 }
 
 void MoveAction::moveEdge(Polygon *polygon, Edge *edge) {
-  edge->getA()->setPos(edge->getA()->getPos() + move.delta);
-  edge->getB()->setPos(edge->getB()->getPos() + move.delta);
+  Vertex *a = edge->getA();
+  Vertex *b = edge->getB();
+  Point delta = move.delta;
+  Point prevAPos = a->getPos();
+  Point prevBPos = b->getPos();
+  Point newAPos = fixPoint(prevAPos + delta, edge);
+  delta = newAPos - prevAPos;
+  Point newBPos = fixPoint(prevBPos + delta, edge);
+  delta = newBPos - prevBPos;
+  newAPos = prevAPos + delta;
+  newBPos = prevBPos + delta;
+
+  a->setPos(newAPos);
+  b->setPos(newBPos);
+  auto constraint = state->getConstraint(a->getOtherEdge(edge));
+  if (constraint != nullptr && constraint->isConstraintBroken() &&
+      !constraint->resolveConstraint(a, state,
+                                     set<ShapePart*>{ b })) {
+    a->setPos(prevAPos);
+    movePolygon(polygon);
+  }
+  constraint = state->getConstraint(b->getOtherEdge(edge));
+  if (constraint != nullptr && constraint->isConstraintBroken() &&
+      !constraint->resolveConstraint(b, state,
+                                     set<ShapePart*>{ a })) {
+    b->setPos(prevBPos);
+    movePolygon(polygon);
+  }
 }
 
 void MoveAction::moveCircleCenter(Circle *circle, CircleCenter *circleCenter) {
@@ -83,11 +126,27 @@ void MoveAction::moveCircleRing(Circle *circle, CircleRing *circleRing) {
 }
 
 void MoveAction::movePolygon(Polygon *polygon) {
-  polygon->map2Vertices([this](Vertex *v) {
-    v->setPos(v->getPos()+move.delta);
+  Point maxDelta = move.delta;
+  polygon->map2Vertices([this, &maxDelta](Vertex *v) {
+    Point vPos = v->getPos();
+    Point nPos = vPos + maxDelta;
+    nPos = fixPoint(nPos, v);
+    maxDelta = nPos - vPos;
+  });
+  polygon->map2Vertices([this, &maxDelta](Vertex *v) {
+    v->setPos(v->getPos() + maxDelta);
   });
 }
 
 void MoveAction::moveCircle(Circle *circle) {
   moveCircleCenter(circle, circle->getCenter());
+}
+
+Point MoveAction::fixPoint(Point p, ShapePart *part) {
+  return p.fix2Rec(Point(0, 0),
+                   part->getParent()->getCanvas()->getSize());
+}
+
+Point MoveAction::fixPoint(Point p, Shape *shape) {
+  return p.fix2Rec(Point(0, 0), shape->getCanvas()->getSize());
 }

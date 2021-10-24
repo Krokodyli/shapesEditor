@@ -1,6 +1,7 @@
 #include "constraintsManagerMode.h"
 #include "fixedRadiusConstraint.h"
 #include "fixedCenterConstraint.h"
+#include "fixedLengthConstraint.h"
 
 ConstraintsManagerMode::ConstraintsManagerMode(CanvasManagerState *_state)
   : ManagerMode(_state),
@@ -28,13 +29,25 @@ void ConstraintsManagerMode::stop(Canvas *canvas) {
 }
 
 void ConstraintsManagerMode::doAction(Canvas *canvas, int actionID) {
+  bool didAction = true;
   if(actionID == makeFixedRadiusConstraint) {
     FixedRadiusConstraintCreator creator;
     creator.makeConstraint(&selectedParts, state);
   }
-  if (actionID == makeFixedCenterConstraint) {
+  else if (actionID == makeFixedCenterConstraint) {
     FixedCenterConstraintCreator creator;
     creator.makeConstraint(&selectedParts, state);
+  }
+  else if (actionID == makeFixedLengthConstraint) {
+    FixedLengthConstraintCreator creator;
+    creator.makeConstraint(&selectedParts, state);
+  }
+  else {
+    didAction = false;
+  }
+  if(didAction) {
+    selectAction.deselect();
+    canvas->doAction(&selectAction);
   }
 }
 
@@ -45,6 +58,10 @@ bool ConstraintsManagerMode::canDoAction(Canvas *canvas, int actionID) {
   }
   else if(actionID == makeFixedCenterConstraint) {
     FixedCenterConstraintCreator creator;
+    return creator.canMakeConstraint(&selectedParts, state);
+  }
+  else if (actionID == makeFixedLengthConstraint) {
+    FixedLengthConstraintCreator creator;
     return creator.canMakeConstraint(&selectedParts, state);
   }
   return false;
@@ -60,3 +77,4 @@ void ConstraintsManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
 
 const int ConstraintsManagerMode::makeFixedRadiusConstraint = 0;
 const int ConstraintsManagerMode::makeFixedCenterConstraint = 1;
+const int ConstraintsManagerMode::makeFixedLengthConstraint = 2;

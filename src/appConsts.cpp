@@ -49,7 +49,9 @@ const std::vector<std::string> AppConsts::imagesPaths = {
   "newVertexIcon.png",
   "locked.png",
   "lockedCenterIcon.png",
-  "lockedRingIcon.png"
+  "lockedRingIcon.png",
+  "fixedLengthIcon.png",
+  "equalEdgesIcon.png"
 };
 
 const std::string AppConsts::fontPath = "font.ttf";
@@ -63,3 +65,6 @@ const int AppConsts::insertVertexButtonImage = 5;
 const int AppConsts::lockedIconImage = 6;
 const int AppConsts::fixedCenterConstraintButtonImage = 7;
 const int AppConsts::fixedRadiusConstraintButtonImage = 8;
+
+const int AppConsts::fixedLengthConstraintButtonImage = 9;
+const int AppConsts::equalEdgesConstraintButtonImage = 10;
