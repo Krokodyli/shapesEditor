@@ -15,10 +15,9 @@ class Constraint {
   virtual ~Constraint();
   virtual bool isConstraintBroken() = 0;
   virtual bool resolveConstraint(ShapePart *p, CanvasManagerState *state,
-                                 set<ShapePart*> resolved
-                                 = set<ShapePart*>()) = 0;
+                                 set<ShapePart*> *resolved) = 0;
   virtual vector<ShapePart *> getAllConstrainted() = 0;
-  virtual void draw(DrawManager *drawManager) = 0;
+  virtual void draw(DrawManager *drawManager, ShapePart *part) = 0;
 };
 
 class ConstraintCreator {

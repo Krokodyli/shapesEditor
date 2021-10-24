@@ -57,17 +57,18 @@ bool MoveAction::canDoAction(Polygon *polygon) {
 void MoveAction::moveVertex(Polygon *polygon, Vertex *vertex) {
   Point prevPos = vertex->getPos();
   vertex->setPos(fixPoint(move.newMousePos, vertex));
+  set<ShapePart*> s;
 
   auto constraint = state->getConstraint(vertex->getA());
   if(constraint != nullptr && constraint->isConstraintBroken()
-     && !constraint->resolveConstraint(vertex, state)) {
+     && !constraint->resolveConstraint(vertex, state, &s)) {
     vertex->setPos(prevPos);
     movePolygon(polygon);
   }
 
   constraint = state->getConstraint(vertex->getB());
   if (constraint != nullptr && constraint->isConstraintBroken() &&
-      !constraint->resolveConstraint(vertex, state)) {
+      !constraint->resolveConstraint(vertex, state, &s)) {
     vertex->setPos(prevPos);
     movePolygon(polygon);
   }
@@ -86,19 +87,26 @@ void MoveAction::moveEdge(Polygon *polygon, Edge *edge) {
   newAPos = prevAPos + delta;
   newBPos = prevBPos + delta;
 
+  set<ShapePart *> s;
+
   a->setPos(newAPos);
   b->setPos(newBPos);
+
   auto constraint = state->getConstraint(a->getOtherEdge(edge));
+  s.insert(b);
   if (constraint != nullptr && constraint->isConstraintBroken() &&
-      !constraint->resolveConstraint(a, state,
-                                     set<ShapePart*>{ b })) {
+      !constraint->resolveConstraint(a, state, &s)) {
     a->setPos(prevAPos);
+    b->setPos(prevBPos);
     movePolygon(polygon);
   }
+  s.erase(b);
+
   constraint = state->getConstraint(b->getOtherEdge(edge));
+  s.insert(a);
   if (constraint != nullptr && constraint->isConstraintBroken() &&
-      !constraint->resolveConstraint(b, state,
-                                     set<ShapePart*>{ a })) {
+      !constraint->resolveConstraint(b, state, &s)) {
+    a->setPos(prevAPos);
     b->setPos(prevBPos);
     movePolygon(polygon);
   }

@@ -17,7 +17,7 @@ bool FixedCenterConstraint::isConstraintBroken() {
 
 bool FixedCenterConstraint::resolveConstraint(ShapePart *p,
                                               CanvasManagerState *state,
-                                              set<ShapePart *> resolved) {
+                                              set<ShapePart *> *resolved) {
   return !isConstraintBroken();
 }
 
@@ -25,7 +25,7 @@ vector<ShapePart *> FixedCenterConstraint::getAllConstrainted() {
   return vector<ShapePart*>{ center };
 }
 
-void FixedCenterConstraint::draw(DrawManager *drawManager) {
+void FixedCenterConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point pos = center->getPos();
   pos.y -= 12;
   drawManager->drawRect(pos.x, pos.y, 25, 25, Color(255, 0, 0));

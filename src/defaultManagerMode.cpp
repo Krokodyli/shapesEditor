@@ -82,7 +82,7 @@ void DefaultManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
   auto prevOffset = drawManager->getOffset();
   drawManager->setOffset(canvas->getPos());
   for(auto constraint : state->getConstraints())
-    constraint.second->draw(drawManager);
+    constraint.second->draw(drawManager, constraint.first);
   drawManager->setOffset(prevOffset);
 }
 

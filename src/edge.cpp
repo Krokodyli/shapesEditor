@@ -17,6 +17,10 @@ Vertex *Edge::getOtherVertex(Vertex *_a) {
   else return nullptr;
 }
 
+double Edge::getLength() {
+  return a->getPos().dis(b->getPos());
+}
+
 bool Edge::isUnderPoint(Point p) {
   return p.dis(a->getPos()) + p.dis(b->getPos())
     <= a->getPos().dis(b->getPos()) + AppConsts::edgeSelectionTolerance;

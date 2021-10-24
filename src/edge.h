@@ -17,6 +17,7 @@ class Edge : public ShapePart {
   Vertex *getB();
 
   Vertex *getOtherVertex(Vertex *_a);
+  double getLength();
 
   virtual bool isUnderPoint(Point p);
 

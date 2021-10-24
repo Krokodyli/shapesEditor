@@ -16,7 +16,7 @@ bool FixedRadiusConstraint::isConstraintBroken() {
 
 bool FixedRadiusConstraint::resolveConstraint(ShapePart *p,
                                               CanvasManagerState *state,
-                                              set<ShapePart *> resolved) {
+                                              set<ShapePart *> *resolved) {
   return !isConstraintBroken();
 }
 
@@ -24,7 +24,7 @@ vector<ShapePart *> FixedRadiusConstraint::getAllConstrainted() {
   return vector<ShapePart*>{ ring };
 }
 
-void FixedRadiusConstraint::draw(DrawManager *drawManager) {
+void FixedRadiusConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point pos = ring->getCenter()->getPos();
   pos.y -= ring->getR();
   pos.y -= 12;

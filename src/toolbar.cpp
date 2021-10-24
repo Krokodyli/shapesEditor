@@ -38,6 +38,7 @@ void Toolbar::setup() {
   buttons.push_back(getFixedCenterConstraintButton());
   buttons.push_back(getFixedRadiusConstraintButton());
   buttons.push_back(getFixedLengthConstraintButton());
+  buttons.push_back(getEqualEdgesConstraintButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -154,6 +155,21 @@ Button Toolbar::getFixedLengthConstraintButton() {
                 AppConsts::fixedLengthConstraintButtonImage);
 
   int actionID = ConstraintsManagerMode::makeFixedLengthConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getEqualEdgesConstraintButton() {
+  Button button("Add equal edges\nconstraint", Point(116, 500),
+                AppConsts::equalEdgesConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeEqualEdgesConstraint;
 
   button.setActionFunc([actionID](CanvasManager *manager) {
     manager->doAction(ManagerModeEnum::ConstraintMode, actionID);

@@ -2,6 +2,7 @@
 #include "fixedRadiusConstraint.h"
 #include "fixedCenterConstraint.h"
 #include "fixedLengthConstraint.h"
+#include "equalEdgesConstraint.h"
 
 ConstraintsManagerMode::ConstraintsManagerMode(CanvasManagerState *_state)
   : ManagerMode(_state),
@@ -42,6 +43,10 @@ void ConstraintsManagerMode::doAction(Canvas *canvas, int actionID) {
     FixedLengthConstraintCreator creator;
     creator.makeConstraint(&selectedParts, state);
   }
+  else if (actionID == makeEqualEdgesConstraint) {
+    EqualEdgesConstraintCreator creator;
+    creator.makeConstraint(&selectedParts, state);
+  }
   else {
     didAction = false;
   }
@@ -64,6 +69,11 @@ bool ConstraintsManagerMode::canDoAction(Canvas *canvas, int actionID) {
     FixedLengthConstraintCreator creator;
     return creator.canMakeConstraint(&selectedParts, state);
   }
+  else if (actionID == makeEqualEdgesConstraint) {
+    EqualEdgesConstraintCreator creator;
+    return creator.canMakeConstraint(&selectedParts, state);
+  }
+
   return false;
 }
 
@@ -71,10 +81,11 @@ void ConstraintsManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
   auto prevOffset = drawManager->getOffset();
   drawManager->setOffset(canvas->getPos());
   for(auto constraint : state->getConstraints())
-    constraint.second->draw(drawManager);
+    constraint.second->draw(drawManager, constraint.first);
   drawManager->setOffset(prevOffset);
 }
 
 const int ConstraintsManagerMode::makeFixedRadiusConstraint = 0;
 const int ConstraintsManagerMode::makeFixedCenterConstraint = 1;
 const int ConstraintsManagerMode::makeFixedLengthConstraint = 2;
+const int ConstraintsManagerMode::makeEqualEdgesConstraint = 3;

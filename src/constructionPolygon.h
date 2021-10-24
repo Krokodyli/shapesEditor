@@ -8,7 +8,6 @@ using std::vector;
 
 class ConstructionPolygon : public ConstructionShape {
 protected:
-  Canvas *canvas;
   vector<Point> points;
   bool shouldFinish;
 public:

@@ -12,19 +12,18 @@ FixedLengthConstraint::FixedLengthConstraint(Edge *_edge)
 FixedLengthConstraint::~FixedLengthConstraint() { }
 
 bool FixedLengthConstraint::isConstraintBroken() {
-  double dis = edge->getA()->getPos().dis(edge->getB()->getPos());
-  return abs(dis - length) > 4;
+  return abs(edge->getLength() - length) > 4;
 }
 
 bool FixedLengthConstraint::resolveConstraint(ShapePart *p,
                                               CanvasManagerState *state,
-                                              set<ShapePart *> resolved) {
+                                              set<ShapePart *> *resolved) {
   if(!isConstraintBroken())
     return true;
 
-  if(resolved.find(p) != resolved.end())
+  if(resolved->find(p) != resolved->end())
     return false;
-  resolved.insert(p);
+  resolved->insert(p);
 
   Vertex *locked = getVertex(p);
   Vertex *other = edge->getOtherVertex(locked);
@@ -40,17 +39,17 @@ bool FixedLengthConstraint::resolveConstraint(ShapePart *p,
   if(otherEdgeConstraint != nullptr
      && !otherEdgeConstraint->resolveConstraint(other, state, resolved)) {
     other->setPos(prevPos);
-    resolved.erase(p);
+    resolved->erase(p);
     return false;
   }
 
   if(!isConstraintBroken()) {
-    resolved.erase(p);
+    resolved->erase(p);
     return true;
   }
 
   other->setPos(prevPos);
-  resolved.erase(p);
+  resolved->erase(p);
   return false;
 }
 
@@ -58,7 +57,7 @@ vector<ShapePart *> FixedLengthConstraint::getAllConstrainted() {
   return vector<ShapePart*>{ edge };
 }
 
-void FixedLengthConstraint::draw(DrawManager *drawManager) {
+void FixedLengthConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point m = (edge->getA()->getPos() + edge->getB()->getPos()) / 2;
   drawManager->drawRect(m.x-12, m.y-12, 25, 25, Color(255, 0, 0));
 }
