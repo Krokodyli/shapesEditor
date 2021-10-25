@@ -40,6 +40,8 @@ void Toolbar::setup() {
   buttons.push_back(getFixedLengthConstraintButton());
   buttons.push_back(getEqualEdgesConstraintButton());
   buttons.push_back(getParallelEdgesConstraintButton());
+  buttons.push_back(getTangentConstraintButton());
+  buttons.push_back(getDeleteConstraintButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -186,6 +188,36 @@ Button Toolbar::getParallelEdgesConstraintButton() {
                 AppConsts::parallelEdgesConstraintButtonImage);
 
   int actionID = ConstraintsManagerMode::makeParallelEdgesConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getTangentConstraintButton() {
+  Button button("Add tangent\nconstraint", Point(116, 570),
+                AppConsts::tangentConstraintButtonImage);
+
+  int actionID = ConstraintsManagerMode::makeTangentConstraint;
+
+  button.setActionFunc([actionID](CanvasManager *manager) {
+    manager->doAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  button.setActiveStatusFunc([actionID](CanvasManager *manager) {
+    return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
+  });
+  return button;
+}
+
+Button Toolbar::getDeleteConstraintButton() {
+  Button button("Remove constraint", Point(75, 640),
+                AppConsts::deleteButtonImage);
+
+  int actionID = ConstraintsManagerMode::deleteConstraints;
 
   button.setActionFunc([actionID](CanvasManager *manager) {
     manager->doAction(ManagerModeEnum::ConstraintMode, actionID);

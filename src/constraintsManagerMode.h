@@ -10,6 +10,9 @@ class ConstraintsManagerMode : public ManagerMode {
   vector<ShapePart*> selectedParts;
 
   SelectCanvasAction selectAction;
+
+  void deleteConstraint();
+  bool canDeleteConstraint();
  public:
   ConstraintsManagerMode(CanvasManagerState *_state);
   virtual ~ConstraintsManagerMode();
@@ -28,4 +31,6 @@ class ConstraintsManagerMode : public ManagerMode {
   static const int makeFixedLengthConstraint;
   static const int makeEqualEdgesConstraint;
   static const int makeParallelEdgesConstraint;
+  static const int makeTangentConstraint;
+  static const int deleteConstraints;
 };

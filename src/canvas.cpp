@@ -3,23 +3,8 @@
 #include "polygon.h"
 #include "circle.h"
 
-Canvas::Canvas(Point _pos, Point _size,
-               CanvasDrawManager *_canvasDrawManager)
-  : pos(_pos), size(_size), canvasDrawManager(_canvasDrawManager) {
-  shapes.push_back(new Polygon(vector<Point>{
-        Point(100, 100),
-        Point(300, 100),
-        Point(200, 300)
-      }, this));
-  shapes.push_back(new Polygon(vector<Point>{
-        Point(500, 500),
-        Point(500, 100),
-        Point(600, 20),
-        Point(700, 500)}, this));
-  shapes.push_back(new Circle(Point(500, 500), 50, this));
-  shapes.push_back(new Circle(Point(320, 150), 20, this));
-  shapes.push_back(new Circle(Point(120, 120), 120, this));
-}
+Canvas::Canvas(Point _pos, Point _size, CanvasDrawManager *_canvasDrawManager)
+    : pos(_pos), size(_size), canvasDrawManager(_canvasDrawManager) { }
 
 Canvas::~Canvas() { }
 
@@ -48,3 +33,14 @@ void Canvas::draw(DrawManager *drawManager) {
 
 Point Canvas::getPos() { return pos; }
 Point Canvas::getSize() { return size; }
+
+Polygon *Canvas::addPolygon(vector<Point> points) {
+  Polygon *pol = new Polygon(points, this);
+  shapes.push_back(pol);
+  return pol;
+}
+Circle *Canvas::addCircle(Point center, int r) {
+  Circle *circle = new Circle(center, r, this);
+  shapes.push_back(circle);
+  return circle;
+}

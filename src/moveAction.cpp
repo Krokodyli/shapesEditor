@@ -2,6 +2,7 @@
 #include "constraint.h"
 #include "canvasManagerState.h"
 #include "canvas.h"
+#include "shapePart.h"
 #include "vertex.h"
 #include <iostream>
 
@@ -110,40 +111,80 @@ void MoveAction::moveEdge(Polygon *polygon, Edge *edge) {
     b->setPos(prevBPos);
     movePolygon(polygon);
   }
+  s.erase(b);
+
+  constraint = state->getConstraint(edge);
+  if (constraint != nullptr && constraint->isConstraintBroken() &&
+      !constraint->resolveConstraint(edge, state, &s)) {
+    a->setPos(prevAPos);
+    b->setPos(prevBPos);
+    movePolygon(polygon);
+  }
 }
 
 void MoveAction::moveCircleCenter(Circle *circle, CircleCenter *circleCenter) {
   Point prevPos = circleCenter->getPos();
-  circleCenter->setPos(move.newMousePos);
+  int r = circle->getRing()->getR();
+  Point minPoint = Point(r, r);
+  Point maxPoint = circle->getCanvas()->getSize() - Point (r, r);
+  circleCenter->setPos(move.newMousePos.fix2Rec(minPoint, maxPoint));
 
   auto constraint = state->getConstraint(circleCenter);
+  set<ShapePart *> s;
 
   if(circle->isShapeOutsideCanvas()
-     || (constraint != nullptr && constraint->isConstraintBroken()))
+     || (constraint != nullptr &&
+         !constraint->resolveConstraint(circleCenter, state, &s)))
     circleCenter->setPos(prevPos);
 }
+
 void MoveAction::moveCircleRing(Circle *circle, CircleRing *circleRing) {
   int prevR = circleRing->getR();
   circleRing->setR(circleRing->getCenter()->getPos().dis(move.newMousePos));
 
   auto constraint = state->getConstraint(circleRing);
+  set<ShapePart *> s;
 
   if(circle->isShapeOutsideCanvas()
-     || (constraint != nullptr && constraint->isConstraintBroken()))
+     || (constraint != nullptr
+         && !constraint->resolveConstraint(circleRing, state, &s)))
     circleRing->setR(prevR);
 }
 
 void MoveAction::movePolygon(Polygon *polygon) {
   Point maxDelta = move.delta;
-  polygon->map2Vertices([this, &maxDelta](Vertex *v) {
+
+  vector<Point> oldPos;
+  vector<std::pair<Constraint*, Edge*>> constraints;
+
+  polygon->map2Vertices([this, &maxDelta, &oldPos](Vertex *v) {
+    oldPos.push_back(v->getPos());
     Point vPos = v->getPos();
     Point nPos = vPos + maxDelta;
     nPos = fixPoint(nPos, v);
     maxDelta = nPos - vPos;
   });
+  polygon->map2Edges([this, &constraints](Edge *e){
+    if(state->getConstraint(e) != nullptr)
+      constraints.push_back(std::make_pair(state->getConstraint(e), e));
+  });
+
   polygon->map2Vertices([this, &maxDelta](Vertex *v) {
     v->setPos(v->getPos() + maxDelta);
   });
+
+  for(auto entry : constraints) {
+    auto constraint = entry.first;
+    auto edge = entry.second;
+    set<ShapePart*> s;
+    if(!constraint->resolveConstraint(edge, state, &s)) {
+      int i = 0;
+      polygon->map2Vertices([this, &oldPos, &i](Vertex *v){
+        v->setPos(oldPos[i]);
+        i++;
+      });
+    }
+  }
 }
 
 void MoveAction::moveCircle(Circle *circle) {

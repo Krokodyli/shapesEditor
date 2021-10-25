@@ -27,8 +27,9 @@ vector<ShapePart *> FixedCenterConstraint::getAllConstrainted() {
 
 void FixedCenterConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point pos = center->getPos();
-  pos.y -= 12;
-  drawManager->drawRect(pos.x, pos.y, 25, 25, Color(255, 0, 0));
+  pos.y -= 28;
+  pos.x -= 12;
+  drawManager->drawRect(pos.x, pos.y, 25, 25, color);
   drawManager->drawImage(pos.x, pos.y, AppConsts::lockedIconImage);
 }
 

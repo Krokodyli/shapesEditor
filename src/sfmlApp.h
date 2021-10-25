@@ -11,7 +11,7 @@ protected:
   sf::Clock clock;
   sf::Clock showFPSClock;
   int fps;
-  bool showFPS = true;
+  bool showFPS = false;
 
   virtual void setup();
   virtual void draw();

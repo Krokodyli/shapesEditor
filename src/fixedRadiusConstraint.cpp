@@ -28,7 +28,8 @@ void FixedRadiusConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point pos = ring->getCenter()->getPos();
   pos.y -= ring->getR();
   pos.y -= 12;
-  drawManager->drawRect(pos.x, pos.y, 25, 25, Color(255, 0, 0));
+  pos.x -= 12;
+  drawManager->drawRect(pos.x, pos.y, 25, 25, color);
   drawManager->drawImage(pos.x, pos.y, AppConsts::lockedIconImage);
 }
 

@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "canvasManagerState.h"
 #include "shapeAction.h"
 
 using std::vector;
@@ -16,8 +17,10 @@ private:
   ShapePart *shapePart;
 
   void addVertex(Edge *e);
+
+  CanvasManagerState *state;
 public:
-  NewVertexAction(ShapePart *_shapePart);
+  NewVertexAction(ShapePart *_shapePart, CanvasManagerState *_state);
 
   virtual void doAction(Circle *circle);
   virtual void doAction(Polygon *polygon);

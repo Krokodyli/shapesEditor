@@ -42,4 +42,6 @@ public:
   void setup();
   void update(Canvas *canvas, InputInfo *inputInfo);
   void draw(DrawManager *drawManager);
+
+  void setupSomeShapes();
 };

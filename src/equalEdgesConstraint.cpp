@@ -18,7 +18,7 @@ bool EqualEdgesConstraint::isConstraintBroken() {
 bool EqualEdgesConstraint::resolveConstraint(ShapePart *p,
                                              CanvasManagerState *state,
                                              set<ShapePart *> *resolved) {
-  if (!isConstraintBroken())
+  if (!isConstraintBroken() || p == a || p == b)
     return true;
 
   if (resolved->find(p) != resolved->end())
@@ -51,11 +51,13 @@ vector<ShapePart *> EqualEdgesConstraint::getAllConstrainted() {
 void EqualEdgesConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   if(part == a) {
     Point m = (a->getA()->getPos() + a->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, Color(255, 0, 0));
+    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
+    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
   }
   if (part == b) {
     Point m = (b->getA()->getPos() + b->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, Color(255, 0, 0));
+    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
+    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
   }
 }
 

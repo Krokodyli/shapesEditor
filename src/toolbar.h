@@ -26,6 +26,9 @@ class Toolbar {
   Button getFixedLengthConstraintButton();
   Button getEqualEdgesConstraintButton();
   Button getParallelEdgesConstraintButton();
+  Button getTangentConstraintButton();
+  Button getDeleteConstraintButton();
+
 public:
   Toolbar();
   void update(CanvasManager *canvasManager, InputInfo *inputInfo);

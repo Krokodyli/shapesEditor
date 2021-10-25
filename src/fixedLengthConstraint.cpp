@@ -18,7 +18,7 @@ bool FixedLengthConstraint::isConstraintBroken() {
 bool FixedLengthConstraint::resolveConstraint(ShapePart *p,
                                               CanvasManagerState *state,
                                               set<ShapePart *> *resolved) {
-  if(!isConstraintBroken())
+  if(!isConstraintBroken() || p == edge)
     return true;
 
   if(resolved->find(p) != resolved->end())
@@ -59,7 +59,8 @@ vector<ShapePart *> FixedLengthConstraint::getAllConstrainted() {
 
 void FixedLengthConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point m = (edge->getA()->getPos() + edge->getB()->getPos()) / 2;
-  drawManager->drawRect(m.x-12, m.y-12, 25, 25, Color(255, 0, 0));
+  drawManager->drawRect(m.x-12, m.y-12, 25, 25, color);
+  drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
 }
 
 Vertex *FixedLengthConstraint::getVertex(ShapePart *part) {

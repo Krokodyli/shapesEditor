@@ -11,7 +11,10 @@ using std::vector;
 class CanvasManagerState;
 
 class Constraint {
+ protected:
+  Color color;
  public:
+  Constraint();
   virtual ~Constraint();
   virtual bool isConstraintBroken() = 0;
   virtual bool resolveConstraint(ShapePart *p, CanvasManagerState *state,

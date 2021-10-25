@@ -8,7 +8,7 @@ DefaultManagerMode::DefaultManagerMode(CanvasManagerState *_state)
                  AppConsts::shapeColor, AppConsts::selectedShapeColor),
     moveAction(&selected, &selectedParts, state),
     deleteAction(&selected, &selectedParts, state),
-    newVertexAction(&selected, &selectedParts) { }
+    newVertexAction(&selected, &selectedParts, state) { }
 
 void DefaultManagerMode::start(Canvas *canvas) {
   lastTimeClicked = getTime();
