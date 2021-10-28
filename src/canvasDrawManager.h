@@ -8,12 +8,15 @@ double rfpart(double a);
 
 class CanvasDrawManager {
  protected:
-  bool antialiasing = false;
+  bool antialiasing;
+
   virtual void drawCirclePoints(int xc, int yc, int x, int y);
   virtual void putPixel(int x, int y) = 0;
   virtual void putPixel(int x, int y, double brightness) = 0;
   virtual void prepareColor(Color c) = 0;
+
  public:
+  CanvasDrawManager();
   virtual ~CanvasDrawManager();
 
   virtual void drawLine(Point a, Point b, Color color);

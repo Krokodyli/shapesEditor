@@ -7,7 +7,6 @@ CanvasManagerState::~CanvasManagerState() {
     delete entry.second;
 }
 
-
 unordered_map<ShapePart*, Constraint*> CanvasManagerState::getConstraints() {
   return constraints;
 }

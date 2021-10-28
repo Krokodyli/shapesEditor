@@ -8,6 +8,7 @@ void ColorShapeAction::doAction(Circle *circle) {
   circle->getCenter()->setColor(color);
   circle->getRing()->setColor(color);
 }
+
 void ColorShapeAction::doAction(Polygon *polygon) {
   polygon->map2Vertices([this](Vertex *v){
     v->setColor(color);

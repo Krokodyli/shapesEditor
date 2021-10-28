@@ -6,11 +6,15 @@ Vertex::Vertex(Point _pos, Shape *_parent, Edge *_a, Edge *_b)
 Vertex::~Vertex() { }
 
 void Vertex::setPos(Point _pos) { pos = _pos; }
+
 Point Vertex::getPos(){ return pos; }
 
 void Vertex::setA(Edge *_a) { a = _a; }
+
 void Vertex::setB(Edge *_b) { b = _b; }
-Edge *Vertex::getA(){ return a; }
+
+Edge *Vertex::getA() { return a; }
+
 Edge *Vertex::getB() { return b; }
 
 Edge *Vertex::getOtherEdge(Edge *_a) {

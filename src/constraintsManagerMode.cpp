@@ -74,18 +74,17 @@ const int ConstraintsManagerMode::makeTangentConstraint = 5;
 const int ConstraintsManagerMode::deleteConstraints = 6;
 
 void ConstraintsManagerMode::setupConstraintCreators() {
-  constraintCreators[makeFixedRadiusConstraint]
-    = new FixedRadiusConstraintCreator();
-  constraintCreators[makeFixedCenterConstraint] =
-      new FixedCenterConstraintCreator();
-  constraintCreators[makeFixedLengthConstraint] =
-      new FixedLengthConstraintCreator();
-  constraintCreators[makeEqualEdgesConstraint] =
-      new EqualEdgesConstraintCreator();
-  constraintCreators[makeParallelEdgesConstraint] =
-      new ParallelEdgesConstraintCreator();
-  constraintCreators[makeTangentConstraint] =
-      new TangentConstraintCreator();
+  std::pair<int, ConstraintCreator*> constraintCreatorsPairs[] = {
+    { makeFixedCenterConstraint, new FixedCenterConstraintCreator() },
+    { makeFixedRadiusConstraint, new FixedRadiusConstraintCreator() },
+    { makeFixedLengthConstraint, new FixedLengthConstraintCreator() },
+    { makeEqualEdgesConstraint, new EqualEdgesConstraintCreator() },
+    { makeParallelEdgesConstraint, new ParallelEdgesConstraintCreator() },
+    { makeTangentConstraint, new TangentConstraintCreator() }
+  };
+
+  for(auto pair : constraintCreatorsPairs)
+    constraintCreators[pair.first] = pair.second;
 }
 
 void ConstraintsManagerMode::deleteConstraint() {

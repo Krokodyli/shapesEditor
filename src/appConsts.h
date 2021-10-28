@@ -30,9 +30,17 @@ class AppConsts {
   static const int vertexSelectionTolerance;
   static const double edgeSelectionTolerance;
 
+  static const double equalEdgesConstraintTolerance;
+
+  static const int constraintIconSize;
+
   static std::string resourcesPath;
+
   static void addPathFromArg(char *pathFromArg);
+
   static const std::string getResourcePath(std::string resource);
+
+  static Color getRandomColorForConstraint();
 
   static const std::vector<std::string> imagesPaths;
 

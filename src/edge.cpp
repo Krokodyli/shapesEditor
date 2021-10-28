@@ -23,10 +23,12 @@ double Edge::getLength() {
 
 double Edge::getLeanRatio() {
   double dx;
+
   if(a->getPos().y >= b->getPos().y)
     dx = a->getPos().x - b->getPos().x;
   else
     dx = b->getPos().x - a->getPos().x;
+
   return acos(dx/getLength());
 }
 

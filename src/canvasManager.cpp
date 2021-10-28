@@ -15,7 +15,7 @@
 CanvasManager::CanvasManager(Canvas *_canvas) {
   canvas = _canvas;
   setup();
-  setupSomeShapes();
+  setUpSomeShapes();
 }
 
 void CanvasManager::setMode(ManagerModeEnum newMode) {
@@ -84,7 +84,8 @@ void CanvasManager::draw(DrawManager *drawManager) {
     modes[currMode]->draw(drawManager, canvas);
 }
 
-void CanvasManager::setupSomeShapes() {
+// TODO find better way to set up shapes with constraints on startup
+void CanvasManager::setUpSomeShapes() {
   auto p1 = canvas->addPolygon(vector<Point>{
       Point(100, 200),
       Point(125, 100),

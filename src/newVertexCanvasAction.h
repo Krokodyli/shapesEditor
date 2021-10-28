@@ -15,6 +15,7 @@ public:
   NewVertexCanvasAction(vector<Shape *> *_shapes,
                         vector<ShapePart *> *_shapeParts,
                         CanvasManagerState *_state);
+
   virtual void doAction(std::vector<Shape *> *canvasShapes);
   virtual bool canDoAction(std::vector<Shape *> *canvasShapes);
 };

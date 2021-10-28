@@ -7,7 +7,8 @@ ConstructManagerMode::ConstructManagerMode(CanvasManagerState *_state,
   : ManagerMode(_state), createShapeFunc(_createShapeFunc),
     constructAction(createShapeFunc, canvas) { }
 
-void ConstructManagerMode::start(Canvas *canvas) { }
+void ConstructManagerMode::start(Canvas *canvas) {}
+
 void ConstructManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
   auto mousePos = inputInfo->getMousePos();
   auto oldMousePos = inputInfo->getPrevMousePos();
@@ -26,7 +27,8 @@ void ConstructManagerMode::stop(Canvas *canvas) {
   canvas->doAction(&constructAction);
 }
 
-void ConstructManagerMode::doAction(Canvas *canvas, int actionID) { }
+void ConstructManagerMode::doAction(Canvas *canvas, int actionID) {}
+
 bool ConstructManagerMode::canDoAction(Canvas *canvas, int actionID) {
   return false;
 }

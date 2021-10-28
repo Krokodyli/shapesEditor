@@ -12,11 +12,8 @@ class DrawManager {
   virtual void loadResources() = 0;
 
   virtual void drawRect(int x, int y, int width, int height,
-                        Color fillColor, Color outlineColor) = 0;
-  virtual void drawCircle(int x, int y, int r,
-                          Color fillColor, Color outlineColor) = 0;
-  virtual void drawRect(int x, int y, int width, int height,
                         Color fillColor) = 0;
+
   virtual void drawCircle(int x, int y, int r, Color fillColor) = 0;
 
   virtual void drawImage(int x, int y, int imageID) = 0;

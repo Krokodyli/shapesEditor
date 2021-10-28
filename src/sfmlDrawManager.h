@@ -22,12 +22,9 @@ class SFMLDrawManager : public DrawManager {
 
   virtual void loadResources();
 
-  virtual void drawRect(int x, int y, int width, int height, Color fillColor,
-                        Color outlineColor);
-  virtual void drawCircle(int x, int y, int r, Color fillColor,
-                          Color outlineColor);
   virtual void drawRect(int x, int y, int width, int height,
                         Color fillColor);
+
   virtual void drawCircle(int x, int y, int r, Color fillColor);
 
   virtual void drawImage(int x, int y, int imageID);

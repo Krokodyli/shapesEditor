@@ -1,6 +1,5 @@
 #include "defaultManagerMode.h"
 #include "appConsts.h"
-#include <iostream>
 
 DefaultManagerMode::DefaultManagerMode(CanvasManagerState *_state)
   : ManagerMode(_state),
@@ -13,7 +12,9 @@ DefaultManagerMode::DefaultManagerMode(CanvasManagerState *_state)
 void DefaultManagerMode::start(Canvas *canvas) { }
 
 void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
-  mousePos = inputInfo->getMousePos();
+  auto mousePos = inputInfo->getMousePos();
+  auto oldMousePos = inputInfo->getPrevMousePos();
+
   bool isMouseInsideCanvas = mousePos.insideRec(0, 0, canvas->getSize().x,
                                                 canvas->getSize().y);
 
@@ -37,13 +38,11 @@ void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
   if(!inputInfo->isLeftPressed())
     grabbed = false;
 
-  if(mousePos != oldMousePos && grabbed) {
+  if(grabbed && mousePos != oldMousePos) {
     Move move(oldMousePos, mousePos);
     moveAction.move(move);
     canvas->doAction(&moveAction);
   }
-
-  oldMousePos = mousePos;
 }
 
 void DefaultManagerMode::stop(Canvas *canvas) {

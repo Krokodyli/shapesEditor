@@ -1,7 +1,5 @@
 #pragma once
 
-#include <chrono>
-
 #include "managerMode.h"
 #include "selectShapeCanvasAction.h"
 #include "moveCanvasAction.h"
@@ -18,7 +16,6 @@ class DefaultManagerMode : public ManagerMode {
   DeleteCanvasAction deleteAction;
   NewVertexCanvasAction newVertexAction;
 
-  Point oldMousePos, mousePos;
   bool grabbed = false;
 
   bool isSomethingSelected();

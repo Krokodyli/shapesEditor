@@ -20,9 +20,12 @@ private:
   CircleCenter *p;
   CircleRing *r;
 
-  bool resolveForEdge(CanvasManagerState *state, set<ShapePart*> *resolved);
-  bool resolveForCircle(CanvasManagerState *state, set<ShapePart *> *resolved);
+  bool resolveIfCircleMoved(CanvasManagerState *state, set<ShapePart*> *resolved);
+  bool resolveIfEdgeMoved(CanvasManagerState *state, set<ShapePart *> *resolved);
   std::pair<Point, Point> getPerpendicularPoint(Point m, Point b, double len);
+
+  bool isMovedCircleInsideCanvas(Point newCenterPos);
+  void swapPositionsToPreferredOrder(Point &newPos, Point &altPos);
 public:
   TangentConstraint(Edge *_a, Circle *_c);
   virtual ~TangentConstraint();

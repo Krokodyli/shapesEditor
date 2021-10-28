@@ -24,6 +24,10 @@ const int AppConsts::ringSelectionTolerance = 4;
 const int AppConsts::vertexSelectionTolerance = 16;
 const double AppConsts::edgeSelectionTolerance = 0.2;
 
+const double AppConsts::equalEdgesConstraintTolerance = 4;
+
+const int AppConsts::constraintIconSize = 25;
+
 std::string AppConsts::resourcesPath = "resources/";
 
 void AppConsts::addPathFromArg(char *pathFromArg) {
@@ -37,6 +41,11 @@ void AppConsts::addPathFromArg(char *pathFromArg) {
 
 const std::string AppConsts::getResourcePath(std::string resource) {
   return resourcesPath + resource;
+}
+
+Color AppConsts::getRandomColorForConstraint() {
+  return Color((rand() % 255 + 255) / 2, (rand() % 255 + 255) / 2,
+               (rand() % 255 + 255) / 2);
 }
 
 const std::vector<std::string> AppConsts::imagesPaths = {

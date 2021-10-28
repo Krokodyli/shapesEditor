@@ -22,22 +22,10 @@ void SFMLApp::setup() {
   inputInfo = new SFMLInputInfo(window);
   canvasDrawManager = new SFMLCanvasDrawManager(canvasSize);
   App::setup();
-
-  clock.restart();
 }
 
 void SFMLApp::draw() {
-  Color c = AppConsts::canvasColor;
-  sf::Color c2 = sf::Color(c.getR(), c.getG(), c.getB(), c.getA());
-  window->clear(c2);
-
   App::draw();
-
-  fps = 1000 / clock.restart().asMilliseconds();
-  if(showFPS)
-    drawManager->drawText("fps: " + std::to_string(fps),
-                          AppConsts::appSize.x - 100, 0, 20, Color(0, 0, 0));
-
   window->display();
 }
 

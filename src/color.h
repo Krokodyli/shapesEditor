@@ -7,6 +7,7 @@ class Color {
   Color();
   Color(unsigned int _r, unsigned int _g,
         unsigned int _b, unsigned int _a = 255);
+
   unsigned char getR();
   unsigned char getG();
   unsigned char getB();

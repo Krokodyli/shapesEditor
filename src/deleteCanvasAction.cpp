@@ -12,12 +12,10 @@ DeleteCanvasAction::DeleteCanvasAction(vector<Shape *> *_shapes,
   : shapes(_shapes), shapeParts(_shapeParts), state(_state) { }
 
 void DeleteCanvasAction::doAction(std::vector<Shape *> *canvasShapes) {
-  if(shapes->size() > 0) {
-    deleteShape((*canvasShapes)[0], canvasShapes);
-  }
-  else if(shapeParts->size() > 0) {
+  if(shapes->size() > 0)
+    deleteShape((*shapes)[0], canvasShapes);
+  else if(shapeParts->size() > 0)
     deleteShapePart((*shapeParts)[0], canvasShapes);
-  }
 }
 
 bool DeleteCanvasAction::canDoAction(std::vector<Shape *> *canvasShapes) {

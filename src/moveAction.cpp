@@ -27,22 +27,15 @@ void MoveAction::doAction(Polygon *polygon) {
     movePolygon(polygon);
   }
   else {
-    Vertex *vertex = nullptr;
-    polygon->map2Vertices([&vertex, this](Vertex *v) {
-      if(part == v)
-        vertex = v;
-    });
+    auto vertex = findVertex(polygon, part);
     if(vertex != nullptr) {
       moveVertex(polygon, vertex);
+      return;
     }
-    else {
-      Edge *edge = nullptr;
-      polygon->map2Edges([&edge, this](Edge *e) {
-        if (part == e)
-          edge = e;
-      });
-      if(edge != nullptr)
-        moveEdge(polygon, edge);
+
+    auto edge = findEdge(polygon, part);
+    if(edge != nullptr) {
+      moveEdge(polygon, edge);
     }
   }
 }
@@ -78,20 +71,11 @@ void MoveAction::moveVertex(Polygon *polygon, Vertex *vertex) {
 void MoveAction::moveEdge(Polygon *polygon, Edge *edge) {
   Vertex *a = edge->getA();
   Vertex *b = edge->getB();
-  Point delta = move.delta;
-  Point prevAPos = a->getPos();
-  Point prevBPos = b->getPos();
-  Point newAPos = fixPoint(prevAPos + delta, edge);
-  delta = newAPos - prevAPos;
-  Point newBPos = fixPoint(prevBPos + delta, edge);
-  delta = newBPos - prevBPos;
-  newAPos = prevAPos + delta;
-  newBPos = prevBPos + delta;
+  Point prevAPos;
+  Point prevBPos;
+  setNewVerticesPosForEdge(polygon, edge, &prevAPos, &prevBPos);
 
   set<ShapePart *> s;
-
-  a->setPos(newAPos);
-  b->setPos(newBPos);
 
   auto constraint = state->getConstraint(a->getOtherEdge(edge));
   s.insert(b);
@@ -155,35 +139,21 @@ void MoveAction::movePolygon(Polygon *polygon) {
   Point maxDelta = move.delta;
 
   vector<Point> oldPos;
-  vector<std::pair<Constraint*, Edge*>> constraints;
 
-  polygon->map2Vertices([this, &maxDelta, &oldPos](Vertex *v) {
-    oldPos.push_back(v->getPos());
-    Point vPos = v->getPos();
-    Point nPos = vPos + maxDelta;
-    nPos = fixPoint(nPos, v);
-    maxDelta = nPos - vPos;
-  });
-  polygon->map2Edges([this, &constraints](Edge *e){
-    if(state->getConstraint(e) != nullptr)
-      constraints.push_back(std::make_pair(state->getConstraint(e), e));
-  });
+  getVerticesPositions(polygon, &oldPos);
+  getMaxDelta4Vertices(polygon, &maxDelta);
 
-  polygon->map2Vertices([this, &maxDelta](Vertex *v) {
-    v->setPos(v->getPos() + maxDelta);
-  });
+  vector<std::pair<Constraint *, Edge *>> constraints;
+  getEdgesConstraints(polygon, &constraints);
+
+  moveAllVertices(polygon, maxDelta);
 
   for(auto entry : constraints) {
     auto constraint = entry.first;
     auto edge = entry.second;
     set<ShapePart*> s;
-    if(!constraint->resolveConstraint(edge, state, &s)) {
-      int i = 0;
-      polygon->map2Vertices([this, &oldPos, &i](Vertex *v){
-        v->setPos(oldPos[i]);
-        i++;
-      });
-    }
+    if(!constraint->resolveConstraint(edge, state, &s))
+      restoreVerticesPositions(polygon, &oldPos);
   }
 }
 
@@ -198,4 +168,79 @@ Point MoveAction::fixPoint(Point p, ShapePart *part) {
 
 Point MoveAction::fixPoint(Point p, Shape *shape) {
   return p.fix2Rec(Point(0, 0), shape->getCanvas()->getSize());
+}
+
+Edge *MoveAction::findEdge(Polygon *polygon, ShapePart *shapePart) {
+  Edge *edge = nullptr;
+  polygon->map2Edges([&edge, this](Edge *e) {
+    if (part == e)
+      edge = e;
+  });
+  return edge;
+}
+
+Vertex *MoveAction::findVertex(Polygon *polygon, ShapePart *shapePart) {
+  Vertex *vertex = nullptr;
+  polygon->map2Vertices([&vertex, shapePart](Vertex *v) {
+    if (shapePart == v)
+      vertex = v;
+  });
+  return vertex;
+}
+
+void MoveAction::getVerticesPositions(Polygon *polygon,
+                                      vector<Point> *oldPos) {
+  polygon->map2Vertices([this, oldPos](Vertex *v) {
+    oldPos->push_back(v->getPos());
+  });
+}
+
+void MoveAction::getMaxDelta4Vertices(Polygon *polygon, Point *maxDelta) {
+  polygon->map2Vertices([this, maxDelta](Vertex *v) {
+    Point vPos = v->getPos();
+    Point nPos = vPos + *maxDelta;
+    nPos = fixPoint(nPos, v);
+    *maxDelta = nPos - vPos;
+  });
+}
+
+void MoveAction::getEdgesConstraints(Polygon *polygon,
+                                     vector<std::pair<Constraint *, Edge *>>
+                                     *constraints) {
+  polygon->map2Edges([this, &constraints](Edge *e) {
+    if (state->getConstraint(e) != nullptr)
+      constraints->push_back(std::make_pair(state->getConstraint(e), e));
+  });
+}
+
+void MoveAction::moveAllVertices(Polygon *polygon, Point maxDelta) {
+  polygon->map2Vertices([this, &maxDelta](Vertex *v) {
+        v->setPos(v->getPos() + maxDelta);
+  });
+}
+
+void MoveAction::restoreVerticesPositions(Polygon *polygon,
+                                          vector<Point> *oldPos) {
+  int i = 0;
+  polygon->map2Vertices([this, &oldPos, &i](Vertex *v) {
+    v->setPos((*oldPos)[i]);
+    i++;
+  });
+}
+
+void MoveAction::setNewVerticesPosForEdge(Polygon *polygon, Edge *edge, Point *prevAPos,
+                                          Point *prevBPos) {
+  Vertex *a = edge->getA();
+  Vertex *b = edge->getB();
+  Point delta = move.delta;
+  *prevAPos = a->getPos();
+  *prevBPos = b->getPos();
+  Point newAPos = fixPoint(*prevAPos + delta, edge);
+  delta = newAPos - *prevAPos;
+  Point newBPos = fixPoint(*prevBPos + delta, edge);
+  delta = newBPos - *prevBPos;
+  newAPos = *prevAPos + delta;
+  newBPos = *prevBPos + delta;
+  a->setPos(newAPos);
+  b->setPos(newBPos);
 }

@@ -27,9 +27,10 @@ vector<ShapePart *> FixedCenterConstraint::getAllConstrainted() {
 
 void FixedCenterConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point pos = center->getPos();
-  pos.y -= 28;
-  pos.x -= 12;
-  drawManager->drawRect(pos.x, pos.y, 25, 25, color);
+  int size = AppConsts::constraintIconSize;
+  pos.y -= 1.1 * size;
+  pos.x -= size/2;
+  drawManager->drawRect(pos.x, pos.y, size, size, color);
   drawManager->drawImage(pos.x, pos.y, AppConsts::lockedIconImage);
 }
 
@@ -51,11 +52,10 @@ bool FixedCenterConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
 
   CircleCenter *center = dynamic_cast<CircleCenter*>((*parts)[0]);
 
-  if(center != nullptr) {
-    state->addConstraint(center, new FixedCenterConstraint(center));
-    return true;
-  }
-  else {
+  if(center == nullptr)
     return false;
-  }
+
+  state->addConstraint(center, new FixedCenterConstraint(center));
+
+  return true;
 }

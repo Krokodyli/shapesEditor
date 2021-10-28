@@ -6,7 +6,10 @@
 Canvas::Canvas(Point _pos, Point _size, CanvasDrawManager *_canvasDrawManager)
     : pos(_pos), size(_size), canvasDrawManager(_canvasDrawManager) { }
 
-Canvas::~Canvas() { }
+Canvas::~Canvas() {
+  for(auto shape : shapes)
+    delete shape;
+}
 
 void Canvas::doAction(CanvasAction *canvasAction) {
   canvasAction->doAction(&shapes);
@@ -19,6 +22,8 @@ bool Canvas::canDoAction(CanvasAction *canvasAction) {
 void Canvas::draw(DrawManager *drawManager) {
   Point prevOffset = drawManager->getOffset();
   drawManager->setOffset(pos);
+
+  drawManager->drawRect(0, 0, size.x, size.y, AppConsts::canvasColor);
 
   for (int i = shapes.size() - 1; i >= 0; i--)
       shapes[i]->drawOnCanvas(canvasDrawManager);
@@ -39,6 +44,7 @@ Polygon *Canvas::addPolygon(vector<Point> points) {
   shapes.push_back(pol);
   return pol;
 }
+
 Circle *Canvas::addCircle(Point center, int r) {
   Circle *circle = new Circle(center, r, this);
   shapes.push_back(circle);

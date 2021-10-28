@@ -13,6 +13,7 @@ class CanvasManagerState {
  public:
   ~CanvasManagerState();
   unordered_map<ShapePart*, Constraint*> getConstraints();
+
   Constraint *getConstraint(ShapePart *part);
   void addConstraint(ShapePart *part, Constraint *constraint);
   void deleteConstraint(ShapePart *part);

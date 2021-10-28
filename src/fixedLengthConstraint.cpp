@@ -12,7 +12,8 @@ FixedLengthConstraint::FixedLengthConstraint(Edge *_edge)
 FixedLengthConstraint::~FixedLengthConstraint() { }
 
 bool FixedLengthConstraint::isConstraintBroken() {
-  return abs(edge->getLength() - length) > 4;
+  return abs(edge->getLength() - length) >
+    AppConsts::equalEdgesConstraintTolerance;
 }
 
 bool FixedLengthConstraint::resolveConstraint(ShapePart *p,
@@ -30,8 +31,9 @@ bool FixedLengthConstraint::resolveConstraint(ShapePart *p,
 
   Point prevPos = other->getPos();
   Point newPosForOther = calculateRightPosition(locked, other);
-  newPosForOther = newPosForOther.fix2Rec(Point(0,0),
-                                          p->getParent()->getCanvas()->getSize());
+
+  auto canvas = p->getParent()->getCanvas();
+  newPosForOther = newPosForOther.fix2Rec(Point(0,0), canvas->getSize());
   other->setPos(newPosForOther);
 
   Edge *otherEdge = other->getOtherEdge(edge);
@@ -59,8 +61,9 @@ vector<ShapePart *> FixedLengthConstraint::getAllConstrainted() {
 
 void FixedLengthConstraint::draw(DrawManager *drawManager, ShapePart *part) {
   Point m = (edge->getA()->getPos() + edge->getB()->getPos()) / 2;
-  drawManager->drawRect(m.x-12, m.y-12, 25, 25, color);
-  drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
+  int size = AppConsts::constraintIconSize;
+  drawManager->drawRect(m.x-size/2, m.y-size/2, size, size, color);
+  drawManager->drawImage(m.x - size/2, m.y - size/2, AppConsts::lockedIconImage);
 }
 
 Vertex *FixedLengthConstraint::getVertex(ShapePart *part) {
@@ -102,11 +105,10 @@ bool FixedLengthConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
 
   Edge *edge = dynamic_cast<Edge*>((*parts)[0]);
 
-  if(edge != nullptr) {
-    state->addConstraint(edge, new FixedLengthConstraint(edge));
-    return true;
-  }
-  else {
+  if(edge == nullptr)
     return false;
-  }
+
+  state->addConstraint(edge, new FixedLengthConstraint(edge));
+
+  return true;
 }

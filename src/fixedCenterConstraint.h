@@ -19,9 +19,12 @@ class FixedCenterConstraint : public Constraint {
   virtual ~FixedCenterConstraint();
 
   virtual bool isConstraintBroken();
+
   virtual bool resolveConstraint(ShapePart *p, CanvasManagerState *state,
                                  set<ShapePart *> *resolved);
+
   virtual vector<ShapePart *> getAllConstrainted();
+
   virtual void draw(DrawManager *drawManager, ShapePart *part);
 };
 
@@ -29,6 +32,7 @@ class FixedCenterConstraintCreator : public ConstraintCreator {
 public:
   virtual bool canMakeConstraint(vector<ShapePart *> *parts,
                                  CanvasManagerState *state);
+
   virtual bool makeConstraint(vector<ShapePart *> *parts,
                               CanvasManagerState *state);
 };

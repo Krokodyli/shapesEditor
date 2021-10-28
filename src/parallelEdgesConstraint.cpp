@@ -50,15 +50,19 @@ vector<ShapePart *> ParallelEdgesConstraint::getAllConstrainted() {
 }
 
 void ParallelEdgesConstraint::draw(DrawManager *drawManager, ShapePart *part) {
-  if (part == a) {
-    Point m = (a->getA()->getPos() + a->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
-    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
-  }
-  if (part == b) {
-    Point m = (b->getA()->getPos() + b->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
-    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
+  Edge *edge = nullptr;
+
+  if (part == a)
+    edge = a;
+  else if (part == b)
+    edge = b;
+
+  if(edge != nullptr) {
+    int size = AppConsts::constraintIconSize;
+    Point m = (edge->getA()->getPos() + edge->getB()->getPos()) /2;
+    drawManager->drawRect(m.x - size/2, m.y - size/2, size, size, color);
+    drawManager->drawImage(m.x - size / 2, m.y - size / 2,
+                          AppConsts::lockedIconImage);
   }
 }
 
@@ -149,18 +153,16 @@ bool ParallelEdgesConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
   Edge *a = dynamic_cast<Edge *>((*parts)[0]);
   Edge *b = dynamic_cast<Edge *>((*parts)[1]);
 
-  if (a != nullptr && b != nullptr) {
-    auto constraint = new ParallelEdgesConstraint(a, b);
-    if (!tryToResolve(constraint, state, a, b))
-      return false;
-
-    state->addConstraint(a, constraint);
-    state->addConstraint(b, constraint);
-    return true;
-  }
-  else {
+  if(a == nullptr || b == nullptr)
     return false;
-  }
+
+  auto constraint = new ParallelEdgesConstraint(a, b);
+  if (!tryToResolve(constraint, state, a, b))
+    return false;
+
+  state->addConstraint(a, constraint);
+  state->addConstraint(b, constraint);
+  return true;
 }
 
 bool ParallelEdgesConstraintCreator::tryToResolve(ParallelEdgesConstraint

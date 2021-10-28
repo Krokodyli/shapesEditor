@@ -15,6 +15,9 @@ Color::Color(unsigned int _r, unsigned int _g,
 }
 
 unsigned char Color::getR() { return r; }
+
 unsigned char Color::getG() { return g; }
+
 unsigned char Color::getB() { return b; }
+
 unsigned char Color::getA() { return a; }

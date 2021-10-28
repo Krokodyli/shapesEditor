@@ -27,8 +27,10 @@ void SelectAction::doAction(Polygon *polygon) {
     if(this->selShapePart == nullptr && v->isUnderPoint(p))
       this->selShapePart = v;
   });
+
   if(selShapePart != nullptr)
     return;
+
   polygon->map2Edges([&, this](Edge *e) {
     if (this->selShapePart == nullptr && e->isUnderPoint(p))
       this->selShapePart = e;

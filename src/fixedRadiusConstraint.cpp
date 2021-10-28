@@ -25,11 +25,12 @@ vector<ShapePart *> FixedRadiusConstraint::getAllConstrainted() {
 }
 
 void FixedRadiusConstraint::draw(DrawManager *drawManager, ShapePart *part) {
+  int size = AppConsts::constraintIconSize;
   Point pos = ring->getCenter()->getPos();
   pos.y -= ring->getR();
-  pos.y -= 12;
-  pos.x -= 12;
-  drawManager->drawRect(pos.x, pos.y, 25, 25, color);
+  pos.y -= size / 2;
+  pos.x -= size / 2;
+  drawManager->drawRect(pos.x, pos.y, size, size, color);
   drawManager->drawImage(pos.x, pos.y, AppConsts::lockedIconImage);
 }
 
@@ -51,11 +52,10 @@ bool FixedRadiusConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
 
   CircleRing *ring = dynamic_cast<CircleRing*>((*parts)[0]);
 
-  if(ring != nullptr) {
-    state->addConstraint((*parts)[0], new FixedRadiusConstraint(ring));
-    return true;
-  }
-  else {
+  if(ring == nullptr)
     return false;
-  }
+
+  state->addConstraint((*parts)[0], new FixedRadiusConstraint(ring));
+
+  return true;
 }

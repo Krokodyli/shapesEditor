@@ -13,6 +13,8 @@ class Shape;
 
 class MoveCanvasAction : public CanvasAction {
  private:
+  int maxMoveDelta;
+
   Move moveValue;
   vector<Shape*> *shapes;
   vector<ShapePart*> *shapeParts;

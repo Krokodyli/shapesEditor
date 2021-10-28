@@ -12,7 +12,8 @@ EqualEdgesConstraint::EqualEdgesConstraint(Edge *_a, Edge *_b)
 EqualEdgesConstraint::~EqualEdgesConstraint() { }
 
 bool EqualEdgesConstraint::isConstraintBroken() {
-  return abs(a->getLength()-b->getLength()) > 4;
+  return abs(a->getLength()-b->getLength()) >
+    AppConsts::equalEdgesConstraintTolerance;
 }
 
 bool EqualEdgesConstraint::resolveConstraint(ShapePart *p,
@@ -49,15 +50,18 @@ vector<ShapePart *> EqualEdgesConstraint::getAllConstrainted() {
 };
 
 void EqualEdgesConstraint::draw(DrawManager *drawManager, ShapePart *part) {
+  int size = AppConsts::constraintIconSize;
   if(part == a) {
     Point m = (a->getA()->getPos() + a->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
-    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
+    drawManager->drawRect(m.x - size/2, m.y - size/2, size, size, color);
+    drawManager->drawImage(m.x - size/2, m.y - size/2,
+                           AppConsts::lockedIconImage);
   }
   if (part == b) {
     Point m = (b->getA()->getPos() + b->getB()->getPos()) / 2;
-    drawManager->drawRect(m.x - 12, m.y - 12, 25, 25, color);
-    drawManager->drawImage(m.x - 12, m.y - 12, AppConsts::lockedIconImage);
+    drawManager->drawRect(m.x - size/2, m.y - size/2, size, size, color);
+    drawManager->drawImage(m.x - size/2, m.y - size/2,
+                           AppConsts::lockedIconImage);
   }
 }
 
@@ -148,31 +152,27 @@ bool EqualEdgesConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
   Edge *a = dynamic_cast<Edge*>((*parts)[0]);
   Edge *b = dynamic_cast<Edge *>((*parts)[1]);
 
-  if(a != nullptr && b != nullptr) {
-    auto constraint = new EqualEdgesConstraint(a, b);
-    if(!tryToResolve(constraint, state, a, b))
-      return false;
-
-    state->addConstraint(a, constraint);
-    state->addConstraint(b, constraint);
-    return true;
-  }
-  else {
+  if(a == nullptr || b == nullptr)
     return false;
-  }
+
+  auto constraint = new EqualEdgesConstraint(a, b);
+  if(!tryToResolve(constraint, state, a, b))
+    return false;
+
+  state->addConstraint(a, constraint);
+  state->addConstraint(b, constraint);
+
+  return true;
 }
 
 bool EqualEdgesConstraintCreator::tryToResolve(EqualEdgesConstraint *constraint,
                                                CanvasManagerState *state,
                                                Edge *a, Edge *b) {
-  set<ShapePart*> s;
-  if(constraint->resolveConstraint(a->getA(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(a->getB(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(b->getA(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(b->getB(), state, &s))
-    return true;
+  set<ShapePart *> s;
+  auto possibleVertices = {a->getA(), a->getB(), b->getA(), b->getB()};
+  for (auto possibleVertex : possibleVertices)
+    if (constraint->resolveConstraint(possibleVertex, state, &s))
+      return true;
+
   return false;
 }

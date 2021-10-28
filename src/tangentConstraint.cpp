@@ -15,7 +15,7 @@ bool TangentConstraint::isConstraintBroken() {
   return abs(m.dis(p->getPos())-r->getR()) > 1;
 }
 
-bool TangentConstraint::resolveForEdge(CanvasManagerState *state,
+bool TangentConstraint::resolveIfCircleMoved(CanvasManagerState *state,
                                        set<ShapePart *> *resolved) {
   if(!isConstraintBroken())
     return true;
@@ -46,6 +46,7 @@ bool TangentConstraint::resolveForEdge(CanvasManagerState *state,
     return false;
   }
   resolved->erase(a->getB());
+
   resolved->insert(a->getA());
   constraint = state->getConstraint(a->getB()->getOtherEdge(a));
   if(constraint != nullptr
@@ -60,7 +61,7 @@ bool TangentConstraint::resolveForEdge(CanvasManagerState *state,
   return true;
 }
 
-bool TangentConstraint::resolveForCircle(CanvasManagerState *state,
+bool TangentConstraint::resolveIfEdgeMoved(CanvasManagerState *state,
                                          set<ShapePart *> *resolved) {
   if (!isConstraintBroken())
     return true;
@@ -68,30 +69,16 @@ bool TangentConstraint::resolveForCircle(CanvasManagerState *state,
   Point m = (a->getA()->getPos() + a->getB()->getPos()) / 2;
   auto possiblePositions = getPerpendicularPoint(m, a->getA()->getPos(),
                                                  r->getR());
-  Point newPos, altPos;
-  if(p->getPos().dis(possiblePositions.first) <=
-     p->getPos().dis(possiblePositions.second)) {
-    newPos = possiblePositions.first;
-    altPos = possiblePositions.second;
-  }
-  else {
-    newPos = possiblePositions.second;
-    altPos = possiblePositions.first;
-  }
+  Point newPos = possiblePositions.first;
+  Point altPos = possiblePositions.second;
 
-  Point canvasSize = c->getCanvas()->getSize();
+  swapPositionsToPreferredOrder(newPos, altPos);
 
-  if(newPos.insideRec(0, 0, canvasSize.x, canvasSize.y)
-     && newPos.x >= r->getR() && newPos.y >= r->getR()
-     && canvasSize.x - 1 - newPos.x >= r->getR()
-     && canvasSize.y - 1 - newPos.y >= r->getR()) {
+  if (isMovedCircleInsideCanvas(newPos)) {
     p->setPos(newPos);
     return true;
   }
-  else if(altPos.insideRec(0, 0, canvasSize.x, canvasSize.y)
-          && altPos.x >= r->getR() && altPos.y >= r->getR()
-          && canvasSize.x - 1 - altPos.x >= r->getR()
-          && canvasSize.y - 1 - altPos.y >= r->getR()) {
+  else if(isMovedCircleInsideCanvas(altPos)) {
     p->setPos(altPos);
     return true;
   }
@@ -111,6 +98,23 @@ std::pair<Point, Point> TangentConstraint::getPerpendicularPoint(Point m,
   return std::make_pair(m + dm1, m + dm2);
 }
 
+bool TangentConstraint::isMovedCircleInsideCanvas(Point newCenterPos) {
+  Point canvasSize = c->getCanvas()->getSize();
+  return (newCenterPos.insideRec(0, 0, canvasSize.x, canvasSize.y) &&
+          newCenterPos.x >= r->getR() && newCenterPos.y >= r->getR() &&
+          canvasSize.x - 1 - newCenterPos.x >= r->getR() &&
+          canvasSize.y - 1 - newCenterPos.y >= r->getR());
+}
+
+void TangentConstraint::swapPositionsToPreferredOrder(Point &newPos,
+                                                      Point &altPos) {
+  if(p->getPos().dis(newPos) > p->getPos().dis(altPos)) {
+    Point tmp = newPos;
+    newPos = altPos;
+    altPos = tmp;
+  }
+}
+
 bool TangentConstraint::resolveConstraint(ShapePart *part, CanvasManagerState *state,
                                           set<ShapePart *> *resolved) {
   if(!isConstraintBroken())
@@ -121,12 +125,12 @@ bool TangentConstraint::resolveConstraint(ShapePart *part, CanvasManagerState *s
   resolved->insert(p);
 
   if(part == a->getA() || part == a->getB() || part == a) {
-    bool ret = resolveForCircle(state, resolved);
+    bool ret = resolveIfEdgeMoved(state, resolved);
     resolved->erase(p);
     return ret;
   }
   else if(part == p || part == r) {
-    bool ret = resolveForEdge(state, resolved);
+    bool ret = resolveIfCircleMoved(state, resolved);
     resolved->erase(p);
     return ret;
   }
@@ -191,41 +195,39 @@ bool TangentConstraintCreator::makeConstraint(vector<ShapePart *> *parts,
   if(!tryToResolve(constraint, state, e, circle))
     return false;
 
-  state->addConstraint(circle->getRing(), constraint);
-  state->addConstraint(circle->getCenter(), constraint);
-  state->addConstraint(e, constraint);
+  for(auto shapePart : constraint->getAllConstrainted())
+    state->addConstraint(shapePart, constraint);
 
   return true;
 }
 
 Edge *TangentConstraintCreator::getEdge(vector<ShapePart *> *parts) {
   Edge *e;
-  e = dynamic_cast<Edge*>((*parts)[0]);
-  if(e != nullptr) return e;
-  e = dynamic_cast<Edge*>((*parts)[1]);
-  if (e != nullptr) return e;
+  for (int i = 0; i <= 1; i++) {
+    e = dynamic_cast<Edge *>((*parts)[i]);
+    if (e != nullptr)
+      return e;
+  }
   return nullptr;
 }
 
 CircleRing *TangentConstraintCreator::getRing(vector<ShapePart *> *parts) {
   CircleRing *r;
-  r = dynamic_cast<CircleRing *>((*parts)[0]);
-  if (r != nullptr)
-    return r;
-  r = dynamic_cast<CircleRing *>((*parts)[1]);
-  if (r != nullptr)
-    return r;
+  for (int i = 0; i <= 1; i++) {
+    r = dynamic_cast<CircleRing *>((*parts)[i]);
+    if (r != nullptr)
+      return r;
+  }
   return nullptr;
 }
 
 CircleCenter *TangentConstraintCreator::getCenter(vector<ShapePart *> *parts) {
   CircleCenter *c;
-  c = dynamic_cast<CircleCenter *>((*parts)[0]);
-  if (c != nullptr)
-    return c;
-  c = dynamic_cast<CircleCenter *>((*parts)[1]);
-  if (c != nullptr)
-    return c;
+  for(int i = 0; i <= 1; i++) {
+    c = dynamic_cast<CircleCenter *>((*parts)[i]);
+    if (c != nullptr)
+      return c;
+  }
   return nullptr;
 }
 

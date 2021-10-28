@@ -8,8 +8,11 @@ CircleRing::CircleRing(int _r, Shape *_parent, CircleCenter *_center)
 CircleRing::~CircleRing(){ }
 
 int CircleRing::getR() { return r; }
+
 void CircleRing::setR(int _r) { r = _r; }
+
 CircleCenter *CircleRing::getCenter() { return center; }
+
 void CircleRing::setCenter(CircleCenter *_center) { center = _center; }
 
 bool CircleRing::isUnderPoint(Point p) {

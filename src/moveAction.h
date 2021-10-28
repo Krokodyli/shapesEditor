@@ -20,6 +20,18 @@ class MoveAction : public ShapeAction {
 
   Point fixPoint(Point p, ShapePart *part);
   Point fixPoint(Point p, Shape *shape);
+
+  Edge *findEdge(Polygon *polygon, ShapePart *shapePart);
+  Vertex *findVertex(Polygon *polygon, ShapePart *shapePart);
+
+  void getVerticesPositions(Polygon *polygon, vector<Point> *oldPos);
+  void getMaxDelta4Vertices(Polygon *polygon, Point *maxDelta);
+  void getEdgesConstraints(Polygon *polygon,
+                           vector<std::pair<Constraint*, Edge*>> *constraints);
+  void moveAllVertices(Polygon *polygon, Point maxDelta);
+  void restoreVerticesPositions(Polygon *polygon, vector<Point> *oldPos);
+  void setNewVerticesPosForEdge(Polygon *polygon, Edge *edge,
+                                Point *prevAPos, Point *prevBPos);
 public:
   virtual void moveShape(Move _move, CanvasManagerState *_state,
                          ShapePart *_part = nullptr);

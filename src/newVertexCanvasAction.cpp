@@ -19,12 +19,10 @@ void NewVertexCanvasAction::doAction(std::vector<Shape *> *canvasShapes) {
 }
 
 bool NewVertexCanvasAction::canDoAction(std::vector<Shape *> *canvasShapes) {
-  if (shapeParts->size() > 0 && shapes->size() == 0) {
-    auto shapePart = (*shapeParts)[0];
-    NewVertexAction newVertexAction(shapePart, state);
-    return shapePart->getParent()->canDoAction(&newVertexAction);
-  }
-  else {
+  if(shapeParts->size() == 0 || shapes->size() != 0)
     return false;
-  }
+
+  auto shapePart = (*shapeParts)[0];
+  NewVertexAction newVertexAction(shapePart, state);
+  return shapePart->getParent()->canDoAction(&newVertexAction);
 }

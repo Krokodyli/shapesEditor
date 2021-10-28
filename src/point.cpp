@@ -51,6 +51,7 @@ bool Point::insideRec(int _x, int _y, int width, int height) {
 
 Point Point::fix2Rec(Point min, Point max) {
   Point p(x, y);
+
   p.x = std::max(p.x, min.x);
   p.x = std::min(p.x, max.x - 1);
 
