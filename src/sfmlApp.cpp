@@ -1,4 +1,5 @@
 #include "sfmlApp.h"
+#include "appConsts.h"
 #include "sfmlDrawManager.h"
 #include "sfmlInputInfo.h"
 #include "sfmlCanvasDrawManager.h"
@@ -26,6 +27,10 @@ void SFMLApp::setup() {
 }
 
 void SFMLApp::draw() {
+  Color c = AppConsts::canvasColor;
+  sf::Color c2 = sf::Color(c.getR(), c.getG(), c.getB(), c.getA());
+  window->clear(c2);
+
   App::draw();
 
   fps = 1000 / clock.restart().asMilliseconds();

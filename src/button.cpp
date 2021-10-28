@@ -6,7 +6,6 @@ Button::Button(std::string _description, Point _pos, int _imageID)
   : description(_description), pos(_pos), imageID(_imageID) {
   mouseHovering = false;
   getActiveStatusFunc = nullptr;
-  getEnabledStatusFunc = nullptr;
   actionFunc = nullptr;
 }
 
@@ -17,11 +16,6 @@ void Button::setActionFunc(function<void(CanvasManager *)> _actionFunc) {
 void Button::setActiveStatusFunc(function<bool(CanvasManager *)>
                                  _getActiveStatusFunc) {
   getActiveStatusFunc = _getActiveStatusFunc;
-}
-
-void Button::setEnabledStatusFunc(function<bool(CanvasManager *)>
-                                  _getEnabledStatusFunc) {
-  getEnabledStatusFunc = _getEnabledStatusFunc;
 }
 
 std::string Button::getDescription() {
@@ -51,8 +45,6 @@ void Button::update(CanvasManager *manager, InputInfo *inputInfo) {
 }
 
 Color Button::getColor(CanvasManager *manager, InputInfo *inputInfo) {
-  if(getEnabledStatusFunc && !getEnabledStatusFunc(manager))
-    return AppConsts::disabledButtonColor;
   if(getActiveStatusFunc) {
     if(getActiveStatusFunc(manager))
       return AppConsts::activeButtonColor;

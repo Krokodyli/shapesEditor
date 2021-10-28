@@ -10,9 +10,7 @@ DefaultManagerMode::DefaultManagerMode(CanvasManagerState *_state)
     deleteAction(&selected, &selectedParts, state),
     newVertexAction(&selected, &selectedParts, state) { }
 
-void DefaultManagerMode::start(Canvas *canvas) {
-  lastTimeClicked = getTime();
-}
+void DefaultManagerMode::start(Canvas *canvas) { }
 
 void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
   mousePos = inputInfo->getMousePos();
@@ -20,8 +18,8 @@ void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
                                                 canvas->getSize().y);
 
   if(inputInfo->isLeftClicked() && isMouseInsideCanvas) {
-    bool selectWholeShape =
-      getTime() - lastTimeClicked <= AppConsts::doubleClickThreshold;
+    bool selectWholeShape
+      = inputInfo->wasLeftClickDouble(AppConsts::doubleClickThreshold);
 
     selectAction.select(inputInfo->getMousePos(), selectWholeShape);
 
@@ -29,8 +27,6 @@ void DefaultManagerMode::update(Canvas *canvas, InputInfo *inputInfo) {
 
     if(isSomethingSelected())
       grabbed = true;
-
-    lastTimeClicked = getTime();
   }
 
   if(inputInfo->isRightClicked()) {
@@ -88,11 +84,6 @@ void DefaultManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
 
 const int DefaultManagerMode::deleteActionID = 0;
 const int DefaultManagerMode::insertVertexActionID = 1;
-
-int DefaultManagerMode::getTime() {
-  return duration_cast<milliseconds>
-    (system_clock::now().time_since_epoch()).count();
-}
 
 bool DefaultManagerMode::isSomethingSelected() {
   return selected.size() > 0 || selectedParts.size() > 0;

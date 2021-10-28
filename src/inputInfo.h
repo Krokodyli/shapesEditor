@@ -15,6 +15,8 @@ class InputInfo {
   virtual bool isLeftClicked() = 0;
   virtual bool isRightClicked() = 0;
 
+  virtual bool wasLeftClickDouble(int gapInMiliseconds) = 0;
+
   virtual Point getMousePos() = 0;
   virtual Point getPrevMousePos() = 0;
 

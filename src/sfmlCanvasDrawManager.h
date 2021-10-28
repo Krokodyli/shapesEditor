@@ -13,6 +13,7 @@ protected:
   sf::Color color;
 
   virtual void putPixel(int x, int y);
+  virtual void putPixel(int x, int y, double brightness);
   virtual void prepareColor(Color c);
 
   sf::Color colorToSFMLColor(Color c);

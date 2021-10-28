@@ -44,3 +44,11 @@ Circle *Canvas::addCircle(Point center, int r) {
   shapes.push_back(circle);
   return circle;
 }
+
+bool Canvas::getAntialiasingState() {
+  return canvasDrawManager->getAntialiasingState();
+}
+
+void Canvas::setAntialiasingState(bool _antialiasing) {
+  canvasDrawManager->setAntialiasingState(_antialiasing);
+}

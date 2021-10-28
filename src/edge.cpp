@@ -30,10 +30,6 @@ double Edge::getLeanRatio() {
   return acos(dx/getLength());
 }
 
-bool Edge::isParallel(Edge *other) {
-  return getLeanRatio() == other->getLeanRatio();
-}
-
 bool Edge::isUnderPoint(Point p) {
   return p.dis(a->getPos()) + p.dis(b->getPos())
     <= a->getPos().dis(b->getPos()) + AppConsts::edgeSelectionTolerance;

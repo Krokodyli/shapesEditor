@@ -17,7 +17,6 @@ class SFMLDrawManager : public DrawManager {
   sf::Font font;
   sf::Text textSprite;
 
-  sf::Color colorToSFMLColor(Color c);
  public:
   SFMLDrawManager(sf::RenderWindow *_window);
 
@@ -40,4 +39,6 @@ class SFMLDrawManager : public DrawManager {
 
   virtual Point getOffset();
   virtual void setOffset(Point _offset);
+
+  sf::Color colorToSFMLColor(Color c);
 };

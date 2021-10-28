@@ -2,6 +2,7 @@
 
 #include "sfmlDrawManager.h"
 #include "appConsts.h"
+#include <iostream>
 
 SFMLCanvasDrawManager::SFMLCanvasDrawManager(Point _size)
   : size(_size) {
@@ -19,6 +20,11 @@ void SFMLCanvasDrawManager::display(DrawManager *drawManager) {
 }
 
 void SFMLCanvasDrawManager::putPixel(int x, int y) {
+  image.setPixel(x, y, color);
+}
+
+void SFMLCanvasDrawManager::putPixel(int x, int y, double b) {
+  color.a = (int)(255 * b);
   image.setPixel(x, y, color);
 }
 

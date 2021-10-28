@@ -29,14 +29,14 @@ bool ParallelEdgesConstraint::resolveConstraint(ShapePart *p,
   Edge *edge = getEdgeFromVertex(p);
   Edge *otherEdge = getOtherEdge(edge);
 
-  if (resolveWithVertex(otherEdge, edge->getLeanRatio(), otherEdge->getA(), state,
-                        resolved)) {
+  if (resolveWithVertex(otherEdge, edge->getLeanRatio(), otherEdge->getA(),
+                        state, resolved)) {
     resolved->erase(p);
     return true;
   }
 
-  if (resolveWithVertex(otherEdge, edge->getLeanRatio(), otherEdge->getB(), state,
-                        resolved)) {
+  if (resolveWithVertex(otherEdge, edge->getLeanRatio(), otherEdge->getB(),
+                        state, resolved)) {
     resolved->erase(p);
     return true;
   }
@@ -168,13 +168,10 @@ bool ParallelEdgesConstraintCreator::tryToResolve(ParallelEdgesConstraint
                                                   CanvasManagerState
                                                   *state, Edge *a, Edge *b) {
   set<ShapePart *> s;
-  if (constraint->resolveConstraint(a->getA(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(a->getB(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(b->getA(), state, &s))
-    return true;
-  if (constraint->resolveConstraint(b->getB(), state, &s))
-    return true;
+  auto possibleVertices = { a->getA(), a->getB(), b->getA(), b->getB() };
+  for(auto possibleVertex : possibleVertices)
+    if(constraint->resolveConstraint(possibleVertex, state, &s))
+      return true;
+
   return false;
 }

@@ -15,16 +15,18 @@ void Toolbar::update(CanvasManager *canvasManager, InputInfo *inputInfo) {
 void Toolbar::draw(DrawManager *drawManager){
   drawManager->drawRect(0, 0, AppConsts::toolbarWidth,
                         AppConsts::appSize.y, AppConsts::toolbarColor);
+
   for(auto &button : buttons)
     button.draw(drawManager);
 
   for (auto &button : buttons) {
     if(button.isMouseHovering()) {
-      drawManager->drawText(button.getDescription(), 15, 35, 15, Color(0, 0, 0)); // TODO
+      drawManager->drawText(button.getDescription(), 15, 35, 15,
+                            Color(0, 0, 0));
       break;
     }
   }
-  drawManager->drawRect(15, 5, 165, 25, Color(170, 255, 170)); // TODO
+  drawManager->drawRect(15, 5, 165, 25, Color(170, 255, 170));
   drawManager->drawText("Shapes Editor", 20, 5, 20, Color(0, 0, 0));
 }
 
@@ -42,6 +44,7 @@ void Toolbar::setup() {
   buttons.push_back(getParallelEdgesConstraintButton());
   buttons.push_back(getTangentConstraintButton());
   buttons.push_back(getDeleteConstraintButton());
+  buttons.push_back(getAntialiasingButton());
 }
 
 Button Toolbar::getDefaultModeButton() {
@@ -225,5 +228,21 @@ Button Toolbar::getDeleteConstraintButton() {
   button.setActiveStatusFunc([actionID](CanvasManager *manager) {
     return manager->canDoAction(ManagerModeEnum::ConstraintMode, actionID);
   });
+  return button;
+}
+
+Button Toolbar::getAntialiasingButton() {
+  Button button("Toggle antialiasing", Point(75, 810),
+         AppConsts::polygonModeButtonImage);
+
+  button.setActionFunc([](CanvasManager *manager) {
+    auto antialiasingState = manager->getCanvas()->getAntialiasingState();
+    manager->getCanvas()->setAntialiasingState(!antialiasingState);
+  });
+
+  button.setActiveStatusFunc([](CanvasManager *manager) {
+    return manager->getCanvas()->getAntialiasingState();
+  });
+
   return button;
 }

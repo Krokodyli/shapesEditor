@@ -29,6 +29,7 @@ class Toolbar {
   Button getTangentConstraintButton();
   Button getDeleteConstraintButton();
 
+  Button getAntialiasingButton();
 public:
   Toolbar();
   void update(CanvasManager *canvasManager, InputInfo *inputInfo);

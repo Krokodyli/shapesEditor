@@ -2,6 +2,8 @@
 
 #include "inputInfo.h"
 
+#include <chrono>
+
 #include <SFML/Window.hpp>
 
 class SFMLInputInfo : public InputInfo {
@@ -12,6 +14,10 @@ class SFMLInputInfo : public InputInfo {
   bool _isLeftPressed, _wasLeftPressed;
   bool _isRightPressed, _wasRightPressed;
   Point mousePos, oldMousePos;
+
+  int prevLeftClickTime, leftClickTime;
+
+  int getMilisecondsFromEpoch();
 public:
   SFMLInputInfo(sf::Window *_window);
   virtual ~SFMLInputInfo();
@@ -24,6 +30,8 @@ public:
   virtual bool wasRightPressed();
   virtual bool isLeftClicked();
   virtual bool isRightClicked();
+
+  virtual bool wasLeftClickDouble(int gapInMiliseconds);
 
   virtual Point getMousePos();
   virtual Point getPrevMousePos();

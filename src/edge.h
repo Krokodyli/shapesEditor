@@ -20,7 +20,6 @@ class Edge : public ShapePart {
   double getLength();
 
   double getLeanRatio();
-  bool isParallel(Edge *other);
 
   virtual bool isUnderPoint(Point p);
 

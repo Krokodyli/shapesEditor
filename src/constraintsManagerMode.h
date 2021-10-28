@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "drawManager.h"
 #include "managerMode.h"
 #include "selectShapeCanvasAction.h"
@@ -11,6 +13,9 @@ class ConstraintsManagerMode : public ManagerMode {
 
   SelectCanvasAction selectAction;
 
+  unordered_map<int, ConstraintCreator*> constraintCreators;
+
+  void setupConstraintCreators();
   void deleteConstraint();
   bool canDeleteConstraint();
  public:

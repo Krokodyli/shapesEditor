@@ -21,7 +21,6 @@ class Button {
   bool mouseHovering;
 
   function<bool(CanvasManager *)> getActiveStatusFunc;
-  function<bool(CanvasManager*)> getEnabledStatusFunc;
   function<void(CanvasManager *)> actionFunc;
 
   Color getColor(CanvasManager *manager, InputInfo *inputInfo);
@@ -30,7 +29,6 @@ class Button {
 
   void setActionFunc(function<void(CanvasManager *)> _actionFunc);
   void setActiveStatusFunc(function<bool(CanvasManager *)> _getActiveStatusFunc);
-  void setEnabledStatusFunc(function<bool(CanvasManager *)> _getEnabledStatusFunc);
 
   std::string getDescription();
 

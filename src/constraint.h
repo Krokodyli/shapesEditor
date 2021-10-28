@@ -25,6 +25,7 @@ class Constraint {
 
 class ConstraintCreator {
  public:
+  virtual ~ConstraintCreator();
   virtual bool canMakeConstraint(vector<ShapePart*> *parts,
                                  CanvasManagerState *state) = 0;
   virtual bool makeConstraint(vector<ShapePart *> *parts,

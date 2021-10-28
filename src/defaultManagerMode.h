@@ -8,10 +8,6 @@
 #include "deleteCanvasAction.h"
 #include "newVertexCanvasAction.h"
 
-using std::chrono::duration_cast;
-using std::chrono::system_clock;
-using std::chrono::milliseconds;
-
 class DefaultManagerMode : public ManagerMode {
  private:
   vector<Shape*> selected;
@@ -25,12 +21,10 @@ class DefaultManagerMode : public ManagerMode {
   Point oldMousePos, mousePos;
   bool grabbed = false;
 
-  int lastTimeClicked;
-
-  int getTime();
   bool isSomethingSelected();
 public:
   DefaultManagerMode(CanvasManagerState *_state);
+
   virtual void start(Canvas *canvas);
   virtual void update(Canvas *canvas, InputInfo *inputInfo);
   virtual void stop(Canvas *canvas);

@@ -11,7 +11,10 @@ ConstraintsManagerMode::ConstraintsManagerMode(CanvasManagerState *_state)
     selectAction(&selected, &selectedParts, true, true,
                  AppConsts::shapeColor, AppConsts::selectedShapeColor) { }
 
-ConstraintsManagerMode::~ConstraintsManagerMode() { }
+ConstraintsManagerMode::~ConstraintsManagerMode() {
+  for(auto entry : constraintCreators)
+    delete entry.second;
+}
 
 void ConstraintsManagerMode::start(Canvas *canvas) { }
 
@@ -32,74 +35,26 @@ void ConstraintsManagerMode::stop(Canvas *canvas) {
 }
 
 void ConstraintsManagerMode::doAction(Canvas *canvas, int actionID) {
-  bool didAction = true;
-  if(actionID == makeFixedRadiusConstraint) {
-    FixedRadiusConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeFixedCenterConstraint) {
-    FixedCenterConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeFixedLengthConstraint) {
-    FixedLengthConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeEqualEdgesConstraint) {
-    EqualEdgesConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeParallelEdgesConstraint) {
-    ParallelEdgesConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeTangentConstraint) {
-    TangentConstraintCreator creator;
-    creator.makeConstraint(&selectedParts, state);
-  }
-  else if (actionID == deleteConstraints) {
-    didAction = false;
+  auto constraint = constraintCreators.find(actionID);
+  if(constraint != constraintCreators.end())
+    constraint->second->makeConstraint(&selectedParts, state);
+  else if (actionID == deleteConstraints)
     deleteConstraint();
-  }
-  else {
-    didAction = false;
-  }
-  if(didAction) {
-    selectAction.deselect();
-    canvas->doAction(&selectAction);
-  }
+  else
+    return;
+
+  selectAction.deselect();
+  canvas->doAction(&selectAction);
 }
 
 bool ConstraintsManagerMode::canDoAction(Canvas *canvas, int actionID) {
-  if (actionID == makeFixedRadiusConstraint) {
-    FixedRadiusConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if(actionID == makeFixedCenterConstraint) {
-    FixedCenterConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeFixedLengthConstraint) {
-    FixedLengthConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeEqualEdgesConstraint) {
-    EqualEdgesConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeParallelEdgesConstraint) {
-    ParallelEdgesConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if (actionID == makeTangentConstraint) {
-    TangentConstraintCreator creator;
-    return creator.canMakeConstraint(&selectedParts, state);
-  }
-  else if (actionID == deleteConstraints) {
+  auto constraint = constraintCreators.find(actionID);
+  if (constraint != constraintCreators.end())
+    return constraint->second->canMakeConstraint(&selectedParts, state);
+  else if (actionID == deleteConstraints)
     return canDeleteConstraint();
-  }
-
-  return false;
+  else
+    return false;
 }
 
 void ConstraintsManagerMode::draw(DrawManager *drawManager, Canvas *canvas) {
@@ -117,6 +72,21 @@ const int ConstraintsManagerMode::makeEqualEdgesConstraint = 3;
 const int ConstraintsManagerMode::makeParallelEdgesConstraint = 4;
 const int ConstraintsManagerMode::makeTangentConstraint = 5;
 const int ConstraintsManagerMode::deleteConstraints = 6;
+
+void ConstraintsManagerMode::setupConstraintCreators() {
+  constraintCreators[makeFixedRadiusConstraint]
+    = new FixedRadiusConstraintCreator();
+  constraintCreators[makeFixedCenterConstraint] =
+      new FixedCenterConstraintCreator();
+  constraintCreators[makeFixedLengthConstraint] =
+      new FixedLengthConstraintCreator();
+  constraintCreators[makeEqualEdgesConstraint] =
+      new EqualEdgesConstraintCreator();
+  constraintCreators[makeParallelEdgesConstraint] =
+      new ParallelEdgesConstraintCreator();
+  constraintCreators[makeTangentConstraint] =
+      new TangentConstraintCreator();
+}
 
 void ConstraintsManagerMode::deleteConstraint() {
   if(!canDeleteConstraint())

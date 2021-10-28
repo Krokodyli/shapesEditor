@@ -16,7 +16,6 @@ const int AppConsts::vertexSize = 3;
 const Color AppConsts::toolbarColor = Color(76, 140, 74);
 const Color AppConsts::activeButtonColor = Color(10, 60, 10);
 const Color AppConsts::inactiveButtonColor = Color(20, 100, 20);
-const Color AppConsts::disabledButtonColor = Color(0, 0, 0);
 const int AppConsts::toolbarWidth = 200;
 const Point AppConsts::buttonSize = Point(50, 50);
 const int AppConsts::doubleClickThreshold = 300;

@@ -34,4 +34,7 @@ class Canvas {
 
   Polygon *addPolygon(vector<Point> points);
   Circle *addCircle(Point center, int r);
+
+  bool getAntialiasingState();
+  void setAntialiasingState(bool _antialiasing);
 };

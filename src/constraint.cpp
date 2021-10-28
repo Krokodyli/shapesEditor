@@ -6,3 +6,5 @@ Constraint::Constraint() {
 }
 
 Constraint::~Constraint() { }
+
+ConstraintCreator::~ConstraintCreator() { }

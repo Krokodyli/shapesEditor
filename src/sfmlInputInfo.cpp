@@ -1,8 +1,15 @@
 #include "sfmlInputInfo.h"
 
-SFMLInputInfo::SFMLInputInfo(sf::Window *_window) : window(_window) { }
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+using std::chrono::system_clock;
 
-SFMLInputInfo::~SFMLInputInfo() {}
+SFMLInputInfo::SFMLInputInfo(sf::Window *_window) : window(_window) {
+  prevLeftClickTime = -1000000;
+  leftClickTime = 0;
+}
+
+SFMLInputInfo::~SFMLInputInfo() { }
 
 void SFMLInputInfo::update() {
   _wasLeftPressed = _isLeftPressed;
@@ -10,7 +17,13 @@ void SFMLInputInfo::update() {
   oldMousePos = mousePos;
 
   _isLeftPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+  if(isLeftClicked()) {
+    prevLeftClickTime = leftClickTime;
+    leftClickTime = getMilisecondsFromEpoch();
+  }
+
   _isRightPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
+
   auto sfmlMousePos = sf::Mouse::getPosition(*window);
   mousePos.x = sfmlMousePos.x;
   mousePos.y = sfmlMousePos.y;
@@ -29,6 +42,10 @@ bool SFMLInputInfo::isRightClicked() {
   return _isRightPressed && !_wasRightPressed;
 }
 
+bool SFMLInputInfo::wasLeftClickDouble(int gapInMiliseconds) {
+  return leftClickTime - prevLeftClickTime <= gapInMiliseconds;
+}
+
 Point SFMLInputInfo::getMousePos() { return mousePos - offset; }
 
 Point SFMLInputInfo::getPrevMousePos() { return oldMousePos - offset; }
@@ -39,4 +56,9 @@ Point SFMLInputInfo::getOffset() {
 
 void SFMLInputInfo::setOffset(Point _offset) {
   offset = _offset;
+}
+
+int SFMLInputInfo::getMilisecondsFromEpoch() {
+  return duration_cast<milliseconds>(system_clock::now().time_since_epoch())
+      .count();
 }
