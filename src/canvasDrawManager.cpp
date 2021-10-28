@@ -1,4 +1,5 @@
 #include "canvasDrawManager.h"
+#include <iostream>
 
 CanvasDrawManager::CanvasDrawManager() : antialiasing(false) { }
 
@@ -152,10 +153,28 @@ void CanvasDrawManager::drawCircle(Point c, int r, Color color) {
   if(!antialiasing)
     drawCircleAliasing(c, r);
   else
-    drawCircleAliasing(c, r); // TODO
+    drawCircleAntialiasing(c, r);
 }
 
-void CanvasDrawManager::drawCircleAntialiasing(Point a, int r) { }
+void CanvasDrawManager::drawCircleAntialiasing(Point a, int r) {
+  int x = r;
+  int y = 0;
+  double T = 0;
+  double D1 = sqrt(r * r - y * y);
+  double D = ceil(D1) - D1;
+  drawCirclePointsAntialiased(a.x, a.y, x, y, 1);
+  drawCirclePointsAntialiased(a.x, a.y, x - 1, y, 1);
+  while(x > y) {
+    y++;
+    D1 = sqrt(r*r-y*y);
+    D = ceil(D1) - D1;
+    if(D < T)
+      x--;
+    drawCirclePointsAntialiased(a.x, a.y, x, y, 1-D);
+    drawCirclePointsAntialiased(a.x, a.y, x - 1, y, D);
+    T = D;
+  }
+}
 
 void CanvasDrawManager::drawCircleAliasing(Point c,  int r){
   int x = 0, y = r;
@@ -184,6 +203,19 @@ void CanvasDrawManager::drawCirclePoints(int xc, int yc, int x, int y) {
   putPixel(xc - y, yc + x);
   putPixel(xc + y, yc - x);
   putPixel(xc - y, yc - x);
+}
+
+void CanvasDrawManager::drawCirclePointsAntialiased(int xc, int yc, int x,
+                                                    int y, double I) {
+  putPixel(xc + x, yc + y, I);
+  putPixel(xc - x, yc + y, I);
+  putPixel(xc + x, yc - y, I);
+  putPixel(xc - x, yc - y, I);
+
+  putPixel(xc + y, yc + x, I);
+  putPixel(xc - y, yc + x, I);
+  putPixel(xc + y, yc - x, I);
+  putPixel(xc - y, yc - x, I);
 }
 
 bool CanvasDrawManager::getAntialiasingState() {

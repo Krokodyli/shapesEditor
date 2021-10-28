@@ -11,10 +11,11 @@ class CanvasDrawManager {
   bool antialiasing;
 
   virtual void drawCirclePoints(int xc, int yc, int x, int y);
+  virtual void drawCirclePointsAntialiased(int xc, int yc, int x, int y,
+                                           double I);
   virtual void putPixel(int x, int y) = 0;
   virtual void putPixel(int x, int y, double brightness) = 0;
   virtual void prepareColor(Color c) = 0;
-
  public:
   CanvasDrawManager();
   virtual ~CanvasDrawManager();
