@@ -9,7 +9,9 @@
 ConstraintsManagerMode::ConstraintsManagerMode(CanvasManagerState *_state)
   : ManagerMode(_state),
     selectAction(&selected, &selectedParts, true, true,
-                 AppConsts::shapeColor, AppConsts::selectedShapeColor) { }
+                 AppConsts::shapeColor, AppConsts::selectedShapeColor) {
+  setupConstraintCreators();
+}
 
 ConstraintsManagerMode::~ConstraintsManagerMode() {
   for(auto entry : constraintCreators)

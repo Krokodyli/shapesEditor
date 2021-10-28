@@ -233,7 +233,7 @@ Button Toolbar::getDeleteConstraintButton() {
 
 Button Toolbar::getAntialiasingButton() {
   Button button("Toggle antialiasing", Point(75, 810),
-         AppConsts::polygonModeButtonImage);
+         AppConsts::antialiasingButtonImage);
 
   button.setActionFunc([](CanvasManager *manager) {
     auto antialiasingState = manager->getCanvas()->getAntialiasingState();

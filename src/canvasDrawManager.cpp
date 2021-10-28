@@ -155,8 +155,7 @@ void CanvasDrawManager::drawCircle(Point c, int r, Color color) {
     drawCircleAliasing(c, r); // TODO
 }
 
-void CanvasDrawManager::drawCircleAntialiasing(Point a, int r) {
-}
+void CanvasDrawManager::drawCircleAntialiasing(Point a, int r) { }
 
 void CanvasDrawManager::drawCircleAliasing(Point c,  int r){
   int x = 0, y = r;

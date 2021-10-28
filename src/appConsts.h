@@ -63,4 +63,5 @@ class AppConsts {
   static const int equalEdgesConstraintButtonImage;
   static const int parallelEdgesConstraintButtonImage;
   static const int tangentConstraintButtonImage;
+  static const int antialiasingButtonImage;
 };

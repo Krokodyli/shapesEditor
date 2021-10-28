@@ -61,7 +61,8 @@ const std::vector<std::string> AppConsts::imagesPaths = {
   "fixedLengthIcon.png",
   "equalEdgesIcon.png",
   "parallelEdgesIcon.png",
-  "tangentIcon.png"
+  "tangentIcon.png",
+  "antialiasingIcon.png"
 };
 
 const std::string AppConsts::fontPath = "font.ttf";
@@ -80,3 +81,4 @@ const int AppConsts::fixedLengthConstraintButtonImage = 9;
 const int AppConsts::equalEdgesConstraintButtonImage = 10;
 const int AppConsts::parallelEdgesConstraintButtonImage = 11;
 const int AppConsts::tangentConstraintButtonImage = 12;
+const int AppConsts::antialiasingButtonImage = 13;
