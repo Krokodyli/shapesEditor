@@ -1,5 +1,4 @@
 #include "constructCanvasAction.h"
-#include <iostream>
 
 ConstructCanvasAction::ConstructCanvasAction(createConstructionFunc
                                              _createShapeFunc,

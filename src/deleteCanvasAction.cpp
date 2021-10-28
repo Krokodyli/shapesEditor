@@ -3,7 +3,6 @@
 #include "deleteAction.h"
 #include "shapePart.h"
 #include "shape.h"
-#include <iostream>
 #include <algorithm>
 
 DeleteCanvasAction::DeleteCanvasAction(vector<Shape *> *_shapes,

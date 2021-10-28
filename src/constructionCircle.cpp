@@ -1,7 +1,6 @@
 #include "constructionCircle.h"
 #include "canvas.h"
 #include "circle.h"
-#include <iostream>
 
 ConstructionCircle::ConstructionCircle(Canvas *_canvas)
   : ConstructionShape(_canvas), isCenterPut(false), isRingPut(false) { }

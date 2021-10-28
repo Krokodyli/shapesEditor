@@ -3,7 +3,6 @@
 #include "constraint.h"
 #include "canvasManagerState.h"
 #include "circleCenter.h"
-#include <iostream>
 #include <string>
 
 FixedCenterConstraint::FixedCenterConstraint(CircleCenter *_center)

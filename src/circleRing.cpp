@@ -1,6 +1,5 @@
 #include "circleRing.h"
 #include "circleCenter.h"
-#include <iostream>
 
 CircleRing::CircleRing(int _r, Shape *_parent, CircleCenter *_center)
   : ShapePart(_parent), r(_r), center(_center) { }

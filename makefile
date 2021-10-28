@@ -1,9 +1,11 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Werror
+CXXFLAGS = -std=c++17 -Wall -Werror -O2
 
 SRC_DIR = src
 BUILD_DIR = build
 BIN_DIR = bin
+DATA_DIR = data
+RESOURCE_DIR = bin/resources
 
 BIN_NAME = sfmlapp
 
@@ -12,25 +14,24 @@ SOURCES = $(shell find $(SRC_DIR) -name "*.cpp")
 OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
-DEBUG_FLAGS = -ggdb -g
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 .PHONY: default_target debug directories all clean
 
-default_target: debug
+default_target: compile
 
-runDebug: debug
-runDebug:
+run: compile
+run:
 	./bin/sfmlapp
 
-debug: CXXFLAGS := $(CXXFLAGS) $(DEBUG_FLAGS)
-debug: directories
+compile: directories
 	@$(MAKE) all
 
 directories:
 	@echo "Creating directories"
 	@mkdir -p $(dir $(OBJECTS))
 	@mkdir -p $(BIN_DIR)
+	@cp -R $(DATA_DIR)/. $(RESOURCE_DIR)
 
 all: $(BIN_DIR)/$(BIN_NAME)
 

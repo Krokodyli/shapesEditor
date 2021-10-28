@@ -3,7 +3,6 @@
 #include "vertex.h"
 #include "shape.h"
 #include "canvas.h"
-#include <iostream>
 
 ParallelEdgesConstraint::ParallelEdgesConstraint(Edge *_a, Edge *_b)
   : a(_a), b(_b) { }

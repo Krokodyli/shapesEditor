@@ -1,6 +1,5 @@
 #include "button.h"
 #include "inputInfo.h"
-#include <iostream>
 
 Button::Button(std::string _description, Point _pos, int _imageID)
   : description(_description), pos(_pos), imageID(_imageID) {

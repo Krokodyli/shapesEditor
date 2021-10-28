@@ -2,7 +2,6 @@
 
 #include "circle.h"
 #include "polygon.h"
-#include <iostream>
 
 SelectAction::SelectAction(Point _p)
   : p(_p), selShapePart(nullptr) { }

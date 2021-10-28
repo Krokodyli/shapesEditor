@@ -1,6 +1,5 @@
 #include "selectShapeCanvasAction.h"
 #include "colorShapeAction.h"
-#include <iostream>
 
 SelectCanvasAction::SelectCanvasAction(vector<Shape*> *_selectedShapes,
                                        vector<ShapePart*> *_selectedShapesParts,

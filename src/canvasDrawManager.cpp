@@ -1,5 +1,4 @@
 #include "canvasDrawManager.h"
-#include <iostream>
 
 CanvasDrawManager::CanvasDrawManager() : antialiasing(false) { }
 

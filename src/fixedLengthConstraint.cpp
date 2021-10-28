@@ -4,7 +4,6 @@
 #include "edge.h"
 #include "shape.h"
 #include "vertex.h"
-#include <iostream>
 
 FixedLengthConstraint::FixedLengthConstraint(Edge *_edge)
     : edge(_edge), length(edge->getA()->getPos().dis(edge->getB()->getPos())) {}

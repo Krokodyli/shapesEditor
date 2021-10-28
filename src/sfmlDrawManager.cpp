@@ -1,6 +1,5 @@
 #include "sfmlDrawManager.h"
 #include <SFML/Graphics/CircleShape.hpp>
-#include <iostream>
 
 SFMLDrawManager::SFMLDrawManager(sf::RenderWindow *_window)
   : window(_window) { }

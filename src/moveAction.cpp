@@ -4,7 +4,6 @@
 #include "canvas.h"
 #include "shapePart.h"
 #include "vertex.h"
-#include <iostream>
 
 void MoveAction::moveShape(Move _move, CanvasManagerState *_state,
                            ShapePart *_part) {

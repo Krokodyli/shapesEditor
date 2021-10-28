@@ -6,7 +6,6 @@
 #include "defaultManagerMode.h"
 #include "fixedCenterConstraint.h"
 #include "fixedLengthConstraint.h"
-#include <iostream>
 #include "fixedRadiusConstraint.h"
 #include "parallelEdgesConstraint.h"
 #include "equalEdgesConstraint.h"

@@ -1,6 +1,5 @@
 #include "constructionPolygon.h"
 #include "polygon.h"
-#include <iostream>
 
 ConstructionPolygon::ConstructionPolygon(Canvas *_canvas)
   : ConstructionShape(_canvas), shouldFinish(false) { }

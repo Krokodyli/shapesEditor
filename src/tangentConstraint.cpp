@@ -3,7 +3,6 @@
 #include "circleRing.h"
 #include "canvas.h"
 #include "shapePart.h"
-#include <iostream>
 
 TangentConstraint::TangentConstraint(Edge *_a, Circle *_c)
   : a(_a), c(_c), p(c->getCenter()), r(c->getRing()) { }

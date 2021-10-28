@@ -2,7 +2,6 @@
 
 #include "sfmlDrawManager.h"
 #include "appConsts.h"
-#include <iostream>
 
 SFMLCanvasDrawManager::SFMLCanvasDrawManager(Point _size)
   : size(_size) {

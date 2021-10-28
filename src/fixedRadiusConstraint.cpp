@@ -2,7 +2,6 @@
 #include "constraint.h"
 #include "canvasManagerState.h"
 #include "circleCenter.h"
-#include <iostream>
 #include <string>
 
 FixedRadiusConstraint::FixedRadiusConstraint(CircleRing *_ring)

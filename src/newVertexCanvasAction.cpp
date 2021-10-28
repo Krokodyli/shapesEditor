@@ -3,7 +3,6 @@
 #include "shapePart.h"
 #include "shape.h"
 #include "newVertexAction.h"
-#include <iostream>
 
 NewVertexCanvasAction::NewVertexCanvasAction(vector<Shape *> *_shapes,
                                              vector<ShapePart *> *_shapeParts,
