@@ -159,11 +159,10 @@ void CanvasDrawManager::drawCircleAntialiasing(Point a, int r) {
   int x = r;
   int y = 0;
   double T = 0;
-  double D1 = sqrt(r * r - y * y);
-  double D = ceil(D1) - D1;
+  double D1;
+  double D = 0;
   drawCirclePointsAntialiased(a.x, a.y, x, y, 1);
-  drawCirclePointsAntialiased(a.x, a.y, x - 1, y, 1);
-  while(x > y) {
+  while(x > y + 1) {
     y++;
     D1 = sqrt(r*r-y*y);
     D = ceil(D1) - D1;
